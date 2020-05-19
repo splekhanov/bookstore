@@ -1,0 +1,1 @@
+INSERT INTO book (id, isbn, title, author, published_year, price) VALUES (null , '9783883890227', 'The Catcher in the Rye', 'Jerome David Salinger', '1994', '19.50');
