@@ -19,11 +19,11 @@ public interface BooksApi {
 
     @ApiOperation(value = "Get book by id", nickname = "getBookById", response = Book.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Gets a book record", response = Book.class)})
+            @ApiResponse(code = 200, message = "Book record created", response = Book.class)})
     @RequestMapping(value = "/books/{id}",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<Book> getBookById(@ApiParam(value = "", required = true) @PathVariable Long id);
+    ResponseEntity<Book> getBookById(@ApiParam(value = "ID of book to return", required = true) @PathVariable Long id);
 
     @ApiOperation(value = "Create a book", nickname = "createBook")
     @ApiResponses(value = {
@@ -33,6 +33,6 @@ public interface BooksApi {
     @RequestMapping(value = "/books",
             consumes = {"application/json"},
             method = RequestMethod.POST)
-    ResponseEntity<Book> createBook(@ApiParam(value = "book object record") @Valid @RequestBody Book body);
+    ResponseEntity<Book> createBook(@ApiParam(value = "Book object that needs to be added to the store") @Valid @RequestBody Book body);
 
 }
