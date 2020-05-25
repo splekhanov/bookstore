@@ -1,6 +1,7 @@
 package com.example.bookstore;
 
 import com.example.bookstore.model.Book;
+import com.example.bookstore.model.Category;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -40,9 +41,33 @@ public class BookApiIntegrationTests {
                 .build();
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 
-        book1 = new Book("9781400164240", "The Great Gatsby", "F. Scott Fitzgerald", "2009", "12.34");
-        book2 = new Book("9780140864168", "Lord of the Flies", "William Golding", "1997", "12.34");
-        book3 = new Book("9780898459159", "The Grapes of Wrath", "John Steinbeck", "1989", "15.97");
+        book1 = Book.builder()
+                .isbn("9781400164240")
+                .title("The Great Gatsby")
+                .author("F. Scott Fitzgerald")
+                .publishedYear("2009")
+                .price("12.34")
+                .quantity(1)
+                .category(Category.builder().id(4L).build()).build();
+
+        book2 = Book.builder()
+                .isbn("9780140864168")
+                .title("Lord of the Flies")
+                .author("William Golding")
+                .publishedYear("1997")
+                .price("14.06")
+                .quantity(1)
+                .category(Category.builder().id(3L).build()).build();
+
+        book3 = Book.builder()
+                .isbn("9786055532666")
+                .title("Neuromancer")
+                .author("William Gibson")
+                .publishedYear("2016")
+                .price("19.71")
+                .quantity(1)
+                .category(Category.builder().id(2L).build()).build();
+
     }
 
     @Test

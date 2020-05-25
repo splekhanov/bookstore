@@ -1,6 +1,7 @@
 package com.example.bookstore.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Data
+@Builder
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,14 +18,6 @@ import javax.persistence.*;
 public class Book implements IdentifiedEntity{
 
     private static final long serialVersionUID = 4435398303003335465L;
-
-    public Book(String author, String isbn, String title, String publishedYear, String price) {
-        this.author = author;
-        this.isbn = isbn;
-        this.title = title;
-        this.publishedYear = publishedYear;
-        this.price = price;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,4 +38,16 @@ public class Book implements IdentifiedEntity{
 
     @Column(name = "price")
     private String price;
+
+    @Column(name = "quantity")
+    private Integer quantity;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "book_category",
+            joinColumns = @JoinColumn(
+                    name = "book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "category_id", referencedColumnName = "id"))
+    private Category category;
 }
