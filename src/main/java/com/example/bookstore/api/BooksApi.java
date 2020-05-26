@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
 
-@Api(value = "books")
+@Api(value = "books", tags = "Books", description = "Books API")
 public interface BooksApi {
 
     @ApiOperation(value = "Get book by id", nickname = "getBookById", response = Book.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Book record created", response = Book.class)})
+            @ApiResponse(code = 200, message = "Book record", response = Book.class)})
     @RequestMapping(value = "/books/{id}",
             produces = {"application/json"},
             method = RequestMethod.GET)

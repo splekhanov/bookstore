@@ -15,7 +15,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerDocumentationConfig {
 
     private ApiInfo apiEndPointsInfo() {
-        return new ApiInfoBuilder().title("Bookstore API")
+        return new ApiInfoBuilder()
+                .title("Bookstore API")
                 .description("Endpoint providing CRUD services for Bookstore")
                 .license("Apache 2.0")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
@@ -25,7 +26,9 @@ public class SwaggerDocumentationConfig {
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2).select()
+        return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
+                .select()
                 .apis(RequestHandlerSelectors
                         .basePackage("com.example.bookstore.api"))
                 .paths(PathSelectors.regex("/.*"))

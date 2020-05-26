@@ -24,8 +24,9 @@ public class BooksApiController implements BooksApi {
     }
 
     @Override
-    public ResponseEntity<Book> createBook(@ApiParam(value = "book object record") @Valid @RequestBody Book book) {
-        Book savedBook = booksService.createBook(book);
+    public ResponseEntity<Book> createBook(@ApiParam(value = "book object record", required = true) @Valid @RequestBody Book book) {
+        Book createdBook = booksService.createBook(book);
+        Book savedBook = booksService.getBook(createdBook.getId());
         return ResponseEntity.ok(savedBook);
     }
 }
