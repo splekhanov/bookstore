@@ -14,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
@@ -48,7 +51,12 @@ public class BookApiIntegrationTests {
                 .publishedYear("2009")
                 .price("12.34")
                 .quantity(1)
-                .category(Category.builder().id(4L).build()).build();
+                .category(Arrays.asList(
+                        Category.builder().id(5L).build(),
+                        Category.builder().id(6L).build(),
+                        Category.builder().id(11L).build(),
+                        Category.builder().id(12L).build()
+                )).build();
 
         book2 = Book.builder()
                 .isbn("9780140864168")
@@ -57,7 +65,9 @@ public class BookApiIntegrationTests {
                 .publishedYear("1997")
                 .price("14.06")
                 .quantity(1)
-                .category(Category.builder().id(3L).build()).build();
+                .category(Arrays.asList(
+                        Category.builder().id(3L).build()
+                )).build();
 
         book3 = Book.builder()
                 .isbn("9786055532666")
@@ -66,7 +76,9 @@ public class BookApiIntegrationTests {
                 .publishedYear("2016")
                 .price("19.71")
                 .quantity(1)
-                .category(Category.builder().id(2L).build()).build();
+                .category(Arrays.asList(
+                        Category.builder().id(2L).build()
+                )).build();
 
     }
 

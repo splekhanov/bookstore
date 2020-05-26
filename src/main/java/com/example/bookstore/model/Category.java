@@ -38,7 +38,7 @@ public class Category implements IdentifiedEntity{
     @Column(name = "category", nullable = false)
     private String category;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "book_category",
             joinColumns = @JoinColumn(

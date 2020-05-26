@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Builder
@@ -42,12 +43,12 @@ public class Book implements IdentifiedEntity{
     @Column(name = "quantity")
     private Integer quantity;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "book_category",
             joinColumns = @JoinColumn(
                     name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "category_id", referencedColumnName = "id"))
-    private Category category;
+    private List<Category> category;
 }
