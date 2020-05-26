@@ -28,8 +28,6 @@ import java.util.List;
 @Table(name = "category")
 public class Category implements IdentifiedEntity{
 
-    private static final long serialVersionUID = 4435398303003338765L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)

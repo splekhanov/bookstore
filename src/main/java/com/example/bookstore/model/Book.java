@@ -18,8 +18,6 @@ import java.util.List;
 @Table(name = "book")
 public class Book implements IdentifiedEntity{
 
-    private static final long serialVersionUID = 4435398303003335465L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
