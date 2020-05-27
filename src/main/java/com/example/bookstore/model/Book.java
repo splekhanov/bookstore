@@ -61,10 +61,10 @@ public class Book implements IdentifiedEntity {
     @ApiModelProperty(position = 2)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "book_category",
+            name = "book_genre",
             joinColumns = @JoinColumn(
                     name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
-                    name = "category_id", referencedColumnName = "id"))
-    private List<Category> category;
+                    name = "genre_id", referencedColumnName = "id"))
+    private List<Genre> genres;
 }

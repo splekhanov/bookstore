@@ -1,6 +1,6 @@
 package com.example.bookstore.api;
 
-import com.example.bookstore.model.Category;
+import com.example.bookstore.model.Genre;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@Api(value = "categories", tags = "Categories", description = "Categories API")
-public interface CategoryApi {
+@Api(value = "genres", tags = "Genres", description = "Genres API")
+public interface GenreApi {
 
-    @ApiOperation(value = "Get all existing categories", nickname = "getCategories", response = Category.class)
+    @ApiOperation(value = "Get all existing genres", nickname = "getGenres", response = Genre.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Category list", response = Category.class)})
-    @RequestMapping(value = "/categories",
+            @ApiResponse(code = 200, message = "Genre list", response = Genre.class)})
+    @RequestMapping(value = "/genres",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<List<Category>> getCategories();
+    ResponseEntity<List<Genre>> getGenres();
 
 }

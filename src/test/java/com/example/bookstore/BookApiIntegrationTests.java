@@ -1,7 +1,7 @@
 package com.example.bookstore;
 
 import com.example.bookstore.model.Book;
-import com.example.bookstore.model.Category;
+import com.example.bookstore.model.Genre;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import static io.restassured.RestAssured.given;
@@ -51,11 +50,11 @@ public class BookApiIntegrationTests {
                 .publishedYear("2009")
                 .price("12.34")
                 .quantity(1)
-                .category(Arrays.asList(
-                        Category.builder().id(5L).build(),
-                        Category.builder().id(6L).build(),
-                        Category.builder().id(11L).build(),
-                        Category.builder().id(12L).build()
+                .genres(Arrays.asList(
+                        Genre.builder().id(5L).build(),
+                        Genre.builder().id(6L).build(),
+                        Genre.builder().id(11L).build(),
+                        Genre.builder().id(12L).build()
                 )).build();
 
         book2 = Book.builder()
@@ -65,8 +64,8 @@ public class BookApiIntegrationTests {
                 .publishedYear("1997")
                 .price("14.06")
                 .quantity(1)
-                .category(Arrays.asList(
-                        Category.builder().id(3L).build()
+                .genres(Arrays.asList(
+                        Genre.builder().id(3L).build()
                 )).build();
 
         book3 = Book.builder()
@@ -76,8 +75,8 @@ public class BookApiIntegrationTests {
                 .publishedYear("2016")
                 .price("19.71")
                 .quantity(1)
-                .category(Arrays.asList(
-                        Category.builder().id(2L).build()
+                .genres(Arrays.asList(
+                        Genre.builder().id(2L).build()
                 )).build();
 
     }

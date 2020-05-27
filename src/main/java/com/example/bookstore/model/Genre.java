@@ -1,10 +1,7 @@
 package com.example.bookstore.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,8 +26,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "category")
-public class Category implements IdentifiedEntity{
+@Table(name = "genre")
+public class Genre implements IdentifiedEntity {
 
     @ApiModelProperty(required = true, value = "ID", position = 1)
     @Id
@@ -38,16 +35,16 @@ public class Category implements IdentifiedEntity{
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @ApiModelProperty(value = "Category", position = 2)
-    @Column(name = "category", nullable = false)
-    private String category;
+    @ApiModelProperty(value = "Type", position = 2)
+    @Column(name = "type", nullable = false)
+    private String type;
 
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "book_category",
+            name = "book_genre",
             joinColumns = @JoinColumn(
-                    name = "category_id", referencedColumnName = "id"),
+                    name = "genre_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "book_id", referencedColumnName = "id"))
     transient private List<Book> books;
