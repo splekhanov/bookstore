@@ -36,10 +36,6 @@ public class BooksService {
         return bookOpt.get();
     }
 
-    public Book saveBook(Book book) {
-        return bookRepository.save(book);
-    }
-
     public Book getBookByIsbn(String isbn) throws NotFoundException {
         Optional<Book> bookOpt = bookRepository.findBookByIsbn(isbn);
 
@@ -56,6 +52,10 @@ public class BooksService {
     public Book updateBook(Long id, Book book) {
         Book bookToUpdate = getBook(id);
         book.setId(bookToUpdate.getId());
+        return saveBook(book);
+    }
+
+    public Book saveBook(Book book) {
         return bookRepository.save(book);
     }
 }
