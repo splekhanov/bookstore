@@ -6,33 +6,48 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Api(value = "books", tags = "Books", description = "Books API")
 public interface BooksApi {
-
-    @ApiOperation(value = "Get book by id", nickname = "getBookById", response = Book.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Book record", response = Book.class)})
-    @RequestMapping(value = "/books/{id}",
-            produces = {"application/json"},
-            method = RequestMethod.GET)
-    ResponseEntity<Book> getBookById(@ApiParam(value = "ID of book to return", required = true) @PathVariable Long id);
 
     @ApiOperation(value = "Create a book", nickname = "createBook")
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Book created"),
             @ApiResponse(code = 400, message = "Invalid book"),
             @ApiResponse(code = 409, message = "Book already exists")})
-    @RequestMapping(value = "/books",
-            consumes = {"application/json"},
-            method = RequestMethod.POST)
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @PostMapping(value = "/books", consumes = {"application/json"})
     ResponseEntity<Book> createBook(@ApiParam(value = "Book object that needs to be added to the store") @Valid @RequestBody Book body);
+
+    @ApiOperation(value = "Get book by id", nickname = "getBookById", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book record", response = Book.class)})
+    @GetMapping(value = "/books/{id}", produces = {"application/json"})
+    ResponseEntity<Book> getBookById(@ApiParam(value = "ID of book to return", required = true) @PathVariable Long id);
+
+    @ApiOperation(value = "Get all existing books", nickname = "getBooks", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book list", response = Book.class, responseContainer = "List")})
+    @GetMapping(value = "/books", produces = {"application/json"})
+    ResponseEntity<List<Book>> getBooks();
+
+    @ApiOperation(value = "Update existing book", nickname = "updateBook", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book updated", response = Book.class),
+            @ApiResponse(code = 400, message = "Invalid book")})
+    @PutMapping(value = "/books/{id}", produces = {"application/json"})
+    ResponseEntity<Void> updateBook(@ApiParam(value = "ID of book to update", required = true) @PathVariable Long id,
+                                    @ApiParam(value = "Book object record") @RequestBody Book body);
 
 }

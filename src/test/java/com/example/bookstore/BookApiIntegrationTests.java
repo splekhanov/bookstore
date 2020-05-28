@@ -90,7 +90,7 @@ public class BookApiIntegrationTests {
                 .post("/books")
                 .then()
 				.assertThat()
-                .statusCode(200).log().all();
+                .statusCode(201).log().all();
     }
 
     @Test
@@ -139,7 +139,7 @@ public class BookApiIntegrationTests {
                         .post("/books")
                         .then()
                         .assertThat()
-                        .statusCode(200)
+                        .statusCode(201)
                         .extract()
                         .body().jsonPath().getString("id");
         return Integer.parseInt(id);

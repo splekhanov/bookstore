@@ -39,4 +39,10 @@ public class GenreService {
         }
         return genre.get();
     }
+
+    public Genre editGenre(Genre genre) {
+        genreRepository.findById(genre.getId())
+                .orElseThrow(() -> new NotFoundException("Genre with id '" + genre.getId() + "' not found"));
+        return genreRepository.save(genre);
+    }
 }
