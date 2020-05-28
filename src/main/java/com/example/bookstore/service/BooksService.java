@@ -29,7 +29,6 @@ public class BooksService {
 
     public Book getBook(Long id) throws NotFoundException {
         Optional<Book> bookOpt = bookRepository.findById(id);
-
         if (!bookOpt.isPresent()) {
             throw new NotFoundException("Book with ID " + id + " not found");
         }
@@ -38,7 +37,6 @@ public class BooksService {
 
     public Book getBookByIsbn(String isbn) throws NotFoundException {
         Optional<Book> bookOpt = bookRepository.findBookByIsbn(isbn);
-
         if (!bookOpt.isPresent()) {
             throw new NotFoundException("Book with ISBN " + isbn + " not found");
         }

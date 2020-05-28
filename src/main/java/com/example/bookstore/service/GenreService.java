@@ -33,7 +33,6 @@ public class GenreService {
 
     public Genre getGenreById(Long id) throws NotFoundException {
         Optional<Genre> genre = genreRepository.findById(id);
-
         if (!genre.isPresent()) {
             throw new NotFoundException("Genre not found");
         }
