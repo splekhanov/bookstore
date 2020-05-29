@@ -1,0 +1,87 @@
+package com.example.bookstore.service.impl;
+
+import com.example.bookstore.db.book.BookRepository;
+import com.example.bookstore.exceptions.AlreadyExistException;
+import com.example.bookstore.exceptions.BadRequestException;
+import com.example.bookstore.exceptions.NotFoundException;
+import com.example.bookstore.model.Book;
+import com.example.bookstore.model.Genre;
+import com.example.bookstore.service.BookService;
+import com.example.bookstore.service.GenreService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class BooksServiceImpl implements BookService {
+
+    private final BookRepository bookRepository;
+    private final GenreService genreService;
+
+    @Autowired
+    public BooksServiceImpl(BookRepository bookRepository, GenreService genreService) {
+        this.bookRepository = bookRepository;
+        this.genreService = genreService;
+    }
+
+    @Override
+    public Book createBook(Book book) {
+        List<Genre> genres = book.getGenres();
+        for (Genre genre : genres) {
+            genre.setType(genreService.getGenreById(genre.getId()).getType());
+        }
+        book.setGenres(genres);
+        bookRepository.findBookByIsbn(book.getIsbn()).ifPresent(e -> {
+            throw new AlreadyExistException("Book with ISBN '" + e.getIsbn() + "' is already exists");
+        });
+        return saveBook(book);
+    }
+
+    @Override
+    public Book getBook(Long id) throws NotFoundException {
+        Optional<Book> bookOpt = bookRepository.findById(id);
+        if (!bookOpt.isPresent()) {
+            throw new NotFoundException("Book with ID '" + id + "' not found");
+        }
+        return bookOpt.get();
+    }
+
+    @Override
+    public Book getBookByIsbn(String isbn) throws NotFoundException {
+        Optional<Book> bookOpt = bookRepository.findBookByIsbn(isbn);
+        if (!bookOpt.isPresent()) {
+            throw new NotFoundException("Book with ISBN '" + isbn + "' not found");
+        }
+        return bookOpt.get();
+    }
+
+    @Override
+    public List<Book> getBooks() {
+        return bookRepository.findAll();
+    }
+
+    @Override
+    public void updateBook(Long id, Book book) {
+        Long objectId = book.getId();
+        if (objectId != null) {
+            if (!id.equals(objectId)) {
+                throw new BadRequestException("ID parameter doesn't match object's ID! Object ID may be omitted.");
+            }
+        }
+        Book existingBook = getBook(id);
+
+        if (objectId != null) {
+            book.setId(existingBook.getId());
+        }
+
+        Book bookToUpdate = getBook(id);
+        book.setId(bookToUpdate.getId());
+        saveBook(book);
+    }
+
+    private Book saveBook(Book book) {
+        return bookRepository.saveAndFlush(book);
+    }
+}

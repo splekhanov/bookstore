@@ -17,6 +17,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
@@ -34,31 +36,34 @@ public class Book implements IdentifiedEntity {
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @ApiModelProperty(position = 3)
+    @NotBlank(message = "ISBN is mandatory")
+    @ApiModelProperty(position = 2)
     @Column(name = "isbn", nullable = false)
     private String isbn;
 
-    @ApiModelProperty(position = 4)
+    @ApiModelProperty(position = 3)
     @Column(name = "title", nullable = false)
     private String title;
 
-    @ApiModelProperty(position = 5)
+    @ApiModelProperty(position = 4)
     @Column(name = "author", nullable = false)
     private String author;
 
-    @ApiModelProperty(position = 6)
+    @ApiModelProperty(position = 5)
     @Column(name = "publication_year", nullable = false)
     private String publicationYear;
 
-    @ApiModelProperty(position = 7)
+    @NotBlank(message = "Price is mandatory")
+    @ApiModelProperty(position = 6)
     @Column(name = "price")
     private String price;
 
-    @ApiModelProperty(position = 8)
+    @NotNull(message = "Quantity is mandatory")
+    @ApiModelProperty(position = 7)
     @Column(name = "quantity")
     private Integer quantity;
 
-    @ApiModelProperty(position = 2)
+    @ApiModelProperty(position = 8)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "book_genre",

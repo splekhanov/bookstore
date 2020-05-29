@@ -29,7 +29,7 @@ import java.util.List;
 @Table(name = "genre")
 public class Genre implements IdentifiedEntity {
 
-    @ApiModelProperty(required = true, value = "ID", position = 1)
+    @ApiModelProperty(value = "id", position = 1)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
