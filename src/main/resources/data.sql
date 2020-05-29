@@ -10,6 +10,6 @@ INSERT INTO genre (id, type) VALUES (9, 'Adventure');
 INSERT INTO genre (id, type) VALUES (10, 'Personal narrative');
 INSERT INTO genre (id, type) VALUES (11, 'Modernism');
 INSERT INTO genre (id, type) VALUES (12, 'Realism');
-INSERT INTO book (id, isbn, title, author, published_year, price, quantity) VALUES (1, '9783883890227', 'The Catcher in the Rye', 'Jerome David Salinger', '1994', '19.50', 1);
+INSERT INTO book (id, isbn, title, author, publication_year, price, quantity) VALUES (1, '9783883890227', 'The Catcher in the Rye', 'Jerome David Salinger', '1994', '19.50', 1);
 INSERT INTO book_genre (book_id, genre_id) VALUES (1, 1);
 INSERT INTO book_genre (book_id, genre_id) VALUES (1, 10);

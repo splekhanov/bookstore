@@ -47,8 +47,8 @@ public class Book implements IdentifiedEntity {
     private String author;
 
     @ApiModelProperty(position = 6)
-    @Column(name = "published_year", nullable = false)
-    private String publishedYear;
+    @Column(name = "publication_year", nullable = false)
+    private String publicationYear;
 
     @ApiModelProperty(position = 7)
     @Column(name = "price")

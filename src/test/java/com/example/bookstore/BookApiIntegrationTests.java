@@ -47,7 +47,7 @@ public class BookApiIntegrationTests {
                 .isbn("9781400164240")
                 .title("The Great Gatsby")
                 .author("F. Scott Fitzgerald")
-                .publishedYear("2009")
+                .publicationYear("2009")
                 .price("12.34")
                 .quantity(1)
                 .genres(Arrays.asList(
@@ -61,7 +61,7 @@ public class BookApiIntegrationTests {
                 .isbn("9780140864168")
                 .title("Lord of the Flies")
                 .author("William Golding")
-                .publishedYear("1997")
+                .publicationYear("1997")
                 .price("14.06")
                 .quantity(1)
                 .genres(Arrays.asList(
@@ -72,7 +72,7 @@ public class BookApiIntegrationTests {
                 .isbn("9786055532666")
                 .title("Neuromancer")
                 .author("William Gibson")
-                .publishedYear("2016")
+                .publicationYear("2016")
                 .price("19.71")
                 .quantity(1)
                 .genres(Arrays.asList(
