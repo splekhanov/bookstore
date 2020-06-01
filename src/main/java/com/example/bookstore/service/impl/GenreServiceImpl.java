@@ -58,12 +58,6 @@ public class GenreServiceImpl implements GenreService {
                 throw new BadRequestException("ID parameter doesn't match object's ID! Object ID may be omitted.");
             }
         }
-//        Genre existingGenre = getGenreById(id);
-
-//        if (objectId != null) {
-//            genre.setId(existingGenre.getId());
-//        }
-
         Genre bookToUpdate = getGenreById(id);
         genre.setId(bookToUpdate.getId());
         saveGenre(genre);
