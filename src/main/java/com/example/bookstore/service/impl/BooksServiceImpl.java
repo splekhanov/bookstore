@@ -34,7 +34,7 @@ public class BooksServiceImpl implements BookService {
         }
         book.setGenres(genres);
         bookRepository.findBookByIsbn(book.getIsbn()).ifPresent(e -> {
-            throw new AlreadyExistException("Book with ISBN '" + e.getIsbn() + "' is already exists");
+            throw new AlreadyExistException("Book with ISBN '" + e.getIsbn() + "' already exists");
         });
         return saveBook(book);
     }
