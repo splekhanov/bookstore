@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.constraints.Min;
 import java.net.URI;
 import java.util.List;
 
@@ -40,6 +41,12 @@ public class BooksApiController implements BooksApi {
     @Override
     public ResponseEntity<List<Book>> getBooks() {
         List<Book> books = booksService.getBooks();
+        return ResponseEntity.ok(books);
+    }
+
+    @Override
+    public ResponseEntity<List<Book>> getBooksByGenre(@PathVariable Long id) {
+        List<Book> books = booksService.getBooksByGenre(id);
         return ResponseEntity.ok(books);
     }
 

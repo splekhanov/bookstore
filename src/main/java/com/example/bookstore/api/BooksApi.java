@@ -55,6 +55,13 @@ public interface BooksApi {
     @GetMapping(value = "/books", produces = {"application/json"})
     ResponseEntity<List<Book>> getBooks();
 
+    @ApiOperation(value = "Get books by genre ID", nickname = "getBooksByGenreId", response = Book.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book list", response = Book.class, responseContainer = "List")})
+    @GetMapping(value = "/books/genre/{id}", produces = {"application/json"})
+    ResponseEntity<List<Book>> getBooksByGenre(@ApiParam(value = "ID of genre", required = true)
+                                        @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long id);
+
     @ApiOperation(value = "Update existing book", nickname = "updateBook", response = Book.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Book updated", response = Book.class),

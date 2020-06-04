@@ -14,8 +14,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -40,12 +38,6 @@ public class Genre implements IdentifiedEntity {
     private String type;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "book_genre",
-            joinColumns = @JoinColumn(
-                    name = "genre_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "book_id", referencedColumnName = "id"))
+    @ManyToMany(mappedBy = "genres", fetch = FetchType.EAGER)
     transient private List<Book> books;
 }
