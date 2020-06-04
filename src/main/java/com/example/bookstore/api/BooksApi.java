@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Validated
@@ -47,7 +47,7 @@ public interface BooksApi {
             @ApiResponse(code = 200, message = "Book record", response = Book.class)})
     @GetMapping(value = "/books/isbn/{isbn}", produces = {"application/json"})
     ResponseEntity<Book> getBookByIsbn(@ApiParam(value = "ISBN of book to return", required = true)
-                                       @NotBlank @Size(max = 13, min = 10, message = "size must be between 10 and 13") @PathVariable String isbn);
+                                       @NotBlank @Pattern(regexp = "^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d-]+$", message = "must consist of 10 or 13 digits with or without hyphens. Spaces are not allowed") @PathVariable String isbn);
 
     @ApiOperation(value = "Get all existing books", nickname = "getBooks", response = Book.class)
     @ApiResponses(value = {
