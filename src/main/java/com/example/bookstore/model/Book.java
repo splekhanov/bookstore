@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Data
@@ -37,6 +38,7 @@ public class Book implements IdentifiedEntity {
     private Long id;
 
     @NotBlank(message = "ISBN is mandatory")
+    @Pattern(regexp = "^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d-]+$", message = "ISBN must consist of 10 or 13 digits with or without hyphens. Spaces are not allowed")
     @ApiModelProperty(position = 2)
     @Column(name = "isbn", nullable = false)
     private String isbn;

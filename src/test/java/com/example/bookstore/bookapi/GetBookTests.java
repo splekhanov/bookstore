@@ -137,6 +137,32 @@ public class GetBookTests extends BaseTestClass {
                 .body("isbn", equalTo(isbn));
     }
 
+    @Test
+    public void getBook_byExistingGenreId_shouldReturnBookObjectAnd200() {
+        int genreId = 1;
+        given()
+                .spec(requestSpec)
+                .when()
+                .get("/books/genre/" + genreId)
+                .then()
+                .assertThat()
+                .statusCode(200)
+                .body("genres[0].id[0]", equalTo(genreId));
+    }
+
+    @Test
+    public void getBook_byNonExistingGenreId_shouldReturnErrorMessageAnd404() {
+        int genreId = 767567567;
+        given()
+                .spec(requestSpec)
+                .when()
+                .get("/books/genre/" + genreId)
+                .then()
+                .assertThat()
+                .statusCode(404)
+                .body("message", equalTo("Genre with ID '" + genreId + "' not found"));
+    }
+
     private void initBooks() {
         book1 = Book.builder()
                 .isbn("9780679735779")

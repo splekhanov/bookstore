@@ -63,6 +63,12 @@ public class BooksServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> getBooksByGenre(Long id) {
+        Genre genre = genreService.getGenreById(id);
+        return bookRepository.findBooksByGenres(genre);
+    }
+
+    @Override
     public void updateBook(Long id, Book book) {
         Long objectId = book.getId();
         if (objectId != null) {

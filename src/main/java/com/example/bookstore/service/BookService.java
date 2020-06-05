@@ -15,6 +15,8 @@ public interface BookService {
 
     List<Book> getBooks();
 
+    List<Book> getBooksByGenre(Long id);
+
     void updateBook(Long id, Book book);
 
 }
