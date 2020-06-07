@@ -4,6 +4,7 @@ import com.example.bookstore.base.BaseTestClass;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.model.Genre;
 import io.restassured.RestAssured;
+import io.restassured.authentication.PreemptiveOAuth2HeaderScheme;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
@@ -35,11 +36,14 @@ public class GetBookTests extends BaseTestClass {
     @Before
     public void setUp() {
         initBooks();
+        PreemptiveOAuth2HeaderScheme oAuth2Scheme = new PreemptiveOAuth2HeaderScheme();
+        oAuth2Scheme.setAccessToken(generateToken(port));
         requestSpec = new RequestSpecBuilder()
                 .setBaseUri("http://localhost")
                 .setPort(port)
                 .setAccept(ContentType.JSON)
                 .setContentType(ContentType.JSON)
+                .setAuth(oAuth2Scheme)
                 .log(LogDetail.ALL)
                 .build();
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
@@ -107,7 +111,7 @@ public class GetBookTests extends BaseTestClass {
                 .then()
                 .assertThat()
                 .statusCode(400)
-                .body("message", equalTo("getBookByIsbn.isbn: size must be between 10 and 13"));
+                .body("message", equalTo("getBookByIsbn.isbn: must consist of 10 or 13 digits with or without hyphens. Spaces are not allowed."));
     }
 
     @Test
@@ -120,7 +124,7 @@ public class GetBookTests extends BaseTestClass {
                 .then()
                 .assertThat()
                 .statusCode(400)
-                .body("message", equalTo("getBookByIsbn.isbn: size must be between 10 and 13"));
+                .body("message", equalTo("getBookByIsbn.isbn: must consist of 10 or 13 digits with or without hyphens. Spaces are not allowed."));
     }
 
     @Test

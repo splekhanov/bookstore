@@ -1,11 +1,9 @@
-package com.example.bookstore.db.genre;
+package com.example.bookstore.repository.genre;
 
-import com.example.bookstore.db.BaseRepository;
-import com.example.bookstore.model.Book;
+import com.example.bookstore.repository.BaseRepository;
 import com.example.bookstore.model.Genre;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository

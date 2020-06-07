@@ -13,7 +13,7 @@ public interface BookService {
 
     Book getBookByIsbn(String isbn) throws NotFoundException;
 
-    List<Book> getBooks();
+    Iterable<Book> getBooks();
 
     List<Book> getBooksByGenre(Long id);
 

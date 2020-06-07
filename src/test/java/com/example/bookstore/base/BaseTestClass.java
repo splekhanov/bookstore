@@ -1,25 +1,26 @@
 package com.example.bookstore.base;
 
 import com.example.bookstore.model.Book;
-import com.example.bookstore.model.Genre;
-import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.filter.log.LogDetail;
+import com.example.bookstore.model.security.Credentials;
+import com.example.bookstore.model.security.Token;
+import com.example.bookstore.model.security.User;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Arrays;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.post;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.with;
 import static org.hamcrest.CoreMatchers.equalTo;
 
 public class BaseTestClass {
+
+    public String generateToken(int port) {
+        String url = "http://localhost:" + port + "/auth";
+        Credentials creds = Credentials.builder().username("flash").password("1234").build();
+        return given().accept(ContentType.JSON).contentType(ContentType.JSON).log().all().body(creds).when().post(url).then().assertThat()
+                .statusCode(200).extract().body().jsonPath().getString("access_token");
+    }
 
     public int createBookPrecondition(RequestSpecification requestSpec, Book book) {
         String id = given()

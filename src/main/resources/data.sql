@@ -18,3 +18,5 @@ INSERT INTO genre (id, type) VALUES (17, 'Southern Gothic');
 INSERT INTO book (id, isbn, title, author, publication_year, price, quantity) VALUES (1, '9783883890227', 'The Catcher in the Rye', 'Jerome David Salinger', '1994', '19.50', 1);
 INSERT INTO book_genre (book_id, genre_id) VALUES (1, 1);
 INSERT INTO book_genre (book_id, genre_id) VALUES (1, 10);
+INSERT INTO role (id, name) VALUES (1, 'ROLE_ADMIN');
+INSERT INTO user (id, name, password, enabled) VALUES (1, 'flash', '$2a$10$BEebJV2WCUPndkLvYiDbB.1MmvsdIvcdQIhD60mj/IXmy9QaUcBWy', true );
