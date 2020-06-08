@@ -1,6 +1,6 @@
 package com.example.bookstore.service.impl;
 
-import com.example.bookstore.db.genre.GenreRepository;
+import com.example.bookstore.repository.genre.GenreRepository;
 import com.example.bookstore.exceptions.AlreadyExistException;
 import com.example.bookstore.exceptions.BadRequestException;
 import com.example.bookstore.exceptions.NotFoundException;

@@ -1,5 +1,7 @@
 package com.example.bookstore.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,41 +33,34 @@ import java.util.List;
 @Table(name = "book")
 public class Book implements IdentifiedEntity {
 
-    @ApiModelProperty(value = "id", position = 1)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
     @NotBlank(message = "ISBN is mandatory")
-    @Pattern(regexp = "^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d-]+$", message = "ISBN must consist of 10 or 13 digits with or without hyphens. Spaces are not allowed")
-    @ApiModelProperty(position = 2)
+    @Pattern(regexp = "^(?=(?:\\D*\\d){10}(?:(?:\\D*\\d){3})?$)[\\d-]+$", message = "ISBN must consist of 10 or 13 digits with or without hyphens. Spaces are not allowed.")
     @Column(name = "isbn", nullable = false)
     private String isbn;
 
-    @ApiModelProperty(position = 3)
     @Column(name = "title", nullable = false)
     private String title;
 
-    @ApiModelProperty(position = 4)
     @Column(name = "author", nullable = false)
     private String author;
 
-    @ApiModelProperty(position = 5)
     @Column(name = "publication_year", nullable = false)
     private String publicationYear;
 
     @NotBlank(message = "Price is mandatory")
-    @ApiModelProperty(position = 6)
     @Column(name = "price")
     private String price;
 
     @NotNull(message = "Quantity is mandatory")
-    @ApiModelProperty(position = 7)
     @Column(name = "quantity")
     private Integer quantity;
 
-    @ApiModelProperty(position = 8)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "book_genre",

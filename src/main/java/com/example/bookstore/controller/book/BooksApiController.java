@@ -1,51 +1,56 @@
-package com.example.bookstore.api;
+package com.example.bookstore.controller.book;
 
+import com.example.bookstore.controller.BooksApi;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.service.impl.BooksServiceImpl;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.Min;
+import javax.annotation.security.RolesAllowed;
 import java.net.URI;
 import java.util.List;
 
-@Controller
+@RestController
 public class BooksApiController implements BooksApi {
 
     @Autowired
     private BooksServiceImpl booksService;
 
     @Override
-    public ResponseEntity<Book> createBook(@ApiParam(value = "book object record", required = true) @RequestBody Book book) {
+    public ResponseEntity<Book> createBook(Book book) {
         Book savedBook = booksService.createBook(book);
         URI location = URI.create(String.format("/books/%s", savedBook.getId()));
         return ResponseEntity.created(location).body(savedBook);
     }
 
+    @RolesAllowed("ROLE_MEMBER")
     @Override
-    public ResponseEntity<Book> getBookById(@PathVariable("id") Long id) {
+    public ResponseEntity<Book> getBookById(Long id) {
         Book book = booksService.getBook(id);
         return ResponseEntity.ok(book);
     }
 
     @Override
-    public ResponseEntity<Book> getBookByIsbn(@PathVariable("isbn") String isbn) {
+    public ResponseEntity<Book> getBookByIsbn(String isbn) {
         Book book = booksService.getBookByIsbn(isbn);
         return ResponseEntity.ok(book);
     }
 
+    @ApiOperation(value = "Get all existing books")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Book list")})
     @Override
-    public ResponseEntity<List<Book>> getBooks() {
-        List<Book> books = booksService.getBooks();
+    public ResponseEntity<Iterable<Book>> getBooks() {
+        Iterable<Book> books = booksService.getBooks();
         return ResponseEntity.ok(books);
     }
 
     @Override
-    public ResponseEntity<List<Book>> getBooksByGenre(@PathVariable Long id) {
+    public ResponseEntity<List<Book>> getBooksByGenre(Long id) {
         List<Book> books = booksService.getBooksByGenre(id);
         return ResponseEntity.ok(books);
     }
