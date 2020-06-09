@@ -5,6 +5,7 @@ import com.example.bookstore.model.security.Token;
 import com.example.bookstore.model.security.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Validated
 @Tag(name = "user", description = "Users API")
@@ -42,6 +44,12 @@ public interface UserApi {
             @ApiResponse(responseCode = "401", description = "Invalid login or password provided")})
     @PostMapping(value = "/users/auth", consumes = {"application/json"})
     ResponseEntity<Token> authenticateUser(@Parameter(description = "Credentials need to be provided to generate token") @Valid @RequestBody Credentials credentials);
+
+    @Operation(summary = "Get all existing users", security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User records", content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))) })
+    @GetMapping(value = "/users", consumes = {"application/json"})
+    ResponseEntity<List<User>> getUsers();
 
     @Operation(summary = "Get user by ID", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {

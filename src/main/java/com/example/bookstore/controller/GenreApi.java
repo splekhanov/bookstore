@@ -3,6 +3,7 @@ package com.example.bookstore.controller;
 import com.example.bookstore.model.Genre;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,7 +39,7 @@ public interface GenreApi {
 
     @Operation(summary = "Get all existing genres", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Genre list", content = @Content(schema = @Schema(implementation = Genre.class)))})
+            @ApiResponse(responseCode = "200", description = "Genre list", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Genre.class)))) })
     @GetMapping(value = "/genres", produces = {"application/json"})
     ResponseEntity<List<Genre>> getGenres();
 

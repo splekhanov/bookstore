@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
+import java.util.List;
 
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -21,7 +22,6 @@ public class UserController implements UserApi {
 
     private final UserService userService;
     private final AuthService authService;
-
 
     @Autowired
     public UserController(UserService userService, AuthService authService) {
@@ -40,6 +40,12 @@ public class UserController implements UserApi {
     @Override
     public ResponseEntity<Token> authenticateUser(Credentials credentials) {
         return ok(authService.authenticateUser(credentials));
+    }
+
+    @Override
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userService.getUsers();
+        return ResponseEntity.ok(users);
     }
 
     @Override

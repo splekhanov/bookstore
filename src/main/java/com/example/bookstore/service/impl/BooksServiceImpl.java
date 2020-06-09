@@ -1,11 +1,11 @@
 package com.example.bookstore.service.impl;
 
-import com.example.bookstore.repository.book.BookRepository;
 import com.example.bookstore.exceptions.AlreadyExistException;
 import com.example.bookstore.exceptions.BadRequestException;
 import com.example.bookstore.exceptions.NotFoundException;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.model.Genre;
+import com.example.bookstore.repository.book.BookRepository;
 import com.example.bookstore.service.BookService;
 import com.example.bookstore.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,7 +58,7 @@ public class BooksServiceImpl implements BookService {
     }
 
     @Override
-    public Iterable<Book> getBooks() {
+    public List<Book> getBooks() {
         return bookRepository.findAll();
     }
 

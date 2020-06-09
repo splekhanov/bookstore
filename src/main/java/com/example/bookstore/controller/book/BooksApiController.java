@@ -44,8 +44,8 @@ public class BooksApiController implements BooksApi {
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Book list")})
     @Override
-    public ResponseEntity<Iterable<Book>> getBooks() {
-        Iterable<Book> books = booksService.getBooks();
+    public ResponseEntity<List<Book>> getBooks() {
+        List<Book> books = booksService.getBooks();
         return ResponseEntity.ok(books);
     }
 

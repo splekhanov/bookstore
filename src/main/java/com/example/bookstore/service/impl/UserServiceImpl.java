@@ -1,11 +1,11 @@
 package com.example.bookstore.service.impl;
 
-import com.example.bookstore.repository.security.RoleRepository;
-import com.example.bookstore.repository.security.UserRepository;
 import com.example.bookstore.exceptions.AlreadyExistException;
 import com.example.bookstore.exceptions.NotFoundException;
 import com.example.bookstore.model.security.Role;
 import com.example.bookstore.model.security.User;
+import com.example.bookstore.repository.security.RoleRepository;
+import com.example.bookstore.repository.security.UserRepository;
 import com.example.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -66,6 +66,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
     public User getUserById(Long id) {
         return findUserById(id);
     }
@@ -91,9 +96,9 @@ public class UserServiceImpl implements UserService {
         if (existingUserByName.isPresent()) {
             throw new AlreadyExistException(String.format("User with name '%s' already exists!", user.getName()));
         }
-        if(user.getId() != null) {
+        if (user.getId() != null) {
             existingUserById = userRepository.findById(user.getId());
-            if(existingUserById.isPresent()) {
+            if (existingUserById.isPresent()) {
                 throw new AlreadyExistException(String.format("User with ID '%s' already exists!", user.getId()));
             }
         }

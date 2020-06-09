@@ -3,6 +3,7 @@ package com.example.bookstore.controller;
 import com.example.bookstore.model.Book;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -54,13 +55,13 @@ public interface BooksApi {
 
     @Operation(summary = "Get all existing books", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Book list")})
+            @ApiResponse(responseCode = "200", description = "Book list", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Book.class)))) })
     @GetMapping(value = "/books", produces = {"application/json"})
-    ResponseEntity<Iterable<Book>> getBooks();
+    ResponseEntity<List<Book>> getBooks();
 
     @Operation(summary = "Get books by genre ID", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Book list")})
+            @ApiResponse(responseCode = "200", description = "Book list", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Book.class)))) })
     @GetMapping(value = "/books/genre/{id}", produces = {"application/json"})
     ResponseEntity<List<Book>> getBooksByGenre(@Parameter(description = "ID of genre", required = true)
                                                @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long id);
