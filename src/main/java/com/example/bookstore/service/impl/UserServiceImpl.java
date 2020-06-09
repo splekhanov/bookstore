@@ -11,9 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.example.bookstore.utils.constants.Roles.USER;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,10 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUser(User user) {
         checkIfUserExists(user);
-        Role userRole = roleRepository.findByName("admin").orElse(new Role("admin"));
-        List<Role> roles = new ArrayList<>();
-        roles.add(userRole);
-        user.setRoles(roles);
+        checkAndSetRoles(user);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         userRepository.saveAndFlush(user);
@@ -102,5 +102,21 @@ public class UserServiceImpl implements UserService {
                 throw new AlreadyExistException(String.format("User with ID '%s' already exists!", user.getId()));
             }
         }
+    }
+
+    private void checkAndSetRoles(User user) {
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            user.setRoles(Collections.singletonList(roleRepository.findByName(USER).get()));
+        }
+        List<Long> availableRolesIds = roleRepository.findAll().stream().map(Role::getId).collect(Collectors.toList());
+        List<Long> userRolesIds = user.getRoles().stream().map(Role::getId).collect(Collectors.toList());
+        for (Long userRolesId : userRolesIds) {
+            if (!availableRolesIds.contains(userRolesId)) {
+                throw new NotFoundException(String.format("Role with ID '%d' not found", userRolesId));
+            }
+        }
+        List<Role> rolesToSet = roleRepository.findAll().stream().filter(role -> userRolesIds.stream()
+                .anyMatch(i -> role.getId().equals(i))).collect(Collectors.toList());
+        user.setRoles(rolesToSet);
     }
 }

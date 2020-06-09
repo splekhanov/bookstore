@@ -19,4 +19,5 @@ INSERT INTO book (id, isbn, title, author, publication_year, price, quantity) VA
 INSERT INTO book_genre (book_id, genre_id) VALUES (1, 1);
 INSERT INTO book_genre (book_id, genre_id) VALUES (1, 10);
 INSERT INTO role (id, name) VALUES (1, 'ROLE_ADMIN');
+INSERT INTO role (id, name) VALUES (2, 'ROLE_USER');
 INSERT INTO user (id, name, password, enabled) VALUES (1, 'admin@epam.com', '$2a$10$BEebJV2WCUPndkLvYiDbB.1MmvsdIvcdQIhD60mj/IXmy9QaUcBWy', true );

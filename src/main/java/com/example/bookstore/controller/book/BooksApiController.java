@@ -3,14 +3,10 @@ package com.example.bookstore.controller.book;
 import com.example.bookstore.controller.BooksApi;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.service.impl.BooksServiceImpl;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.RolesAllowed;
 import java.net.URI;
 import java.util.List;
 
@@ -39,9 +35,6 @@ public class BooksApiController implements BooksApi {
         return ResponseEntity.ok(book);
     }
 
-    @ApiOperation(value = "Get all existing books")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Book list")})
     @Override
     public ResponseEntity<List<Book>> getBooks() {
         List<Book> books = booksService.getBooks();

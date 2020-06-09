@@ -1,4 +1,4 @@
-package com.example.bookstore.configuration;
+package com.example.bookstore.configuration.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

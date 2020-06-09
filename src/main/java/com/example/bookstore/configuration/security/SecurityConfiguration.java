@@ -1,4 +1,4 @@
-package com.example.bookstore.configuration;
+package com.example.bookstore.configuration.security;
 
 import com.example.bookstore.security.JwtAuthenticationEntryPoint;
 import com.example.bookstore.security.JwtAuthenticationFilter;

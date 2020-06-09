@@ -2,9 +2,11 @@ package com.example.bookstore.controller.user;
 
 import com.example.bookstore.controller.UserApi;
 import com.example.bookstore.model.security.Credentials;
+import com.example.bookstore.model.security.Role;
 import com.example.bookstore.model.security.Token;
 import com.example.bookstore.model.security.User;
 import com.example.bookstore.service.AuthService;
+import com.example.bookstore.service.RoleService;
 import com.example.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +24,13 @@ public class UserController implements UserApi {
 
     private final UserService userService;
     private final AuthService authService;
+    private final RoleService roleService;
 
     @Autowired
-    public UserController(UserService userService, AuthService authService) {
+    public UserController(UserService userService, AuthService authService, RoleService roleService) {
         this.userService = userService;
         this.authService = authService;
+        this.roleService = roleService;
     }
 
     @Override
@@ -68,5 +72,11 @@ public class UserController implements UserApi {
     public ResponseEntity<Void> restoreUser(@PathVariable Long id) {
         userService.restoreUser(id);
         return ok().build();
+    }
+
+    @Override
+    public ResponseEntity<List<Role>> getRoles() {
+        List<Role> roles = roleService.getRoles();
+        return ResponseEntity.ok(roles);
     }
 }
