@@ -16,8 +16,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 public class BaseTestClass {
 
     public String generateToken(int port) {
-        String url = "http://localhost:" + port + "/auth";
-        Credentials creds = Credentials.builder().username("flash").password("1234").build();
+        String url = "http://localhost:" + port + "/users/auth";
+        Credentials creds = Credentials.builder().username("admin@epam.com").password("1234").build();
         return given().accept(ContentType.JSON).contentType(ContentType.JSON).log().all().body(creds).when().post(url).then().assertThat()
                 .statusCode(200).extract().body().jsonPath().getString("access_token");
     }

@@ -27,7 +27,6 @@ public class BooksApiController implements BooksApi {
         return ResponseEntity.created(location).body(savedBook);
     }
 
-    @RolesAllowed("ROLE_MEMBER")
     @Override
     public ResponseEntity<Book> getBookById(Long id) {
         Book book = booksService.getBook(id);

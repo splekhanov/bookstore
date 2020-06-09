@@ -48,7 +48,7 @@ public interface UserApi {
     @Operation(summary = "Get all existing users", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User records", content = @Content(array = @ArraySchema(schema = @Schema(implementation = User.class)))) })
-    @GetMapping(value = "/users", consumes = {"application/json"})
+    @GetMapping(value = "/users", produces = {"application/json"})
     ResponseEntity<List<User>> getUsers();
 
     @Operation(summary = "Get user by ID", security = @SecurityRequirement(name = "bearerAuth"))
@@ -56,7 +56,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "200", description = "User record", content = @Content(schema = @Schema(implementation = User.class))),
             @ApiResponse(responseCode = "400", description = "Invalid user"),
             @ApiResponse(responseCode = "404", description = "User not found")})
-    @GetMapping(value = "/users/{id}", consumes = {"application/json"})
+    @GetMapping(value = "/users/{id}", produces = {"application/json"})
     ResponseEntity<User> getUserById(@Parameter(description = "ID of user to return", required = true)
                                      @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long id);
 
@@ -65,7 +65,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "200", description = "User record", content = @Content(schema = @Schema(implementation = User.class))),
             @ApiResponse(responseCode = "400", description = "Invalid user"),
             @ApiResponse(responseCode = "404", description = "User not found")})
-    @GetMapping(value = "/users/name/{name}", consumes = {"application/json"})
+    @GetMapping(value = "/users/name/{name}", produces = {"application/json"})
     ResponseEntity<User> getUserByName(@Parameter(description = "Name of user to return", required = true)
                                        @NotBlank @PathVariable String name);
 
@@ -73,7 +73,7 @@ public interface UserApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User has been deleted"),
             @ApiResponse(responseCode = "404", description = "User not found")})
-    @DeleteMapping(value = "/users/{id}", consumes = {"application/json"})
+    @DeleteMapping(value = "/users/{id}")
     ResponseEntity<Void> deleteUser(@Parameter(description = "ID of user to be deleted", required = true)
                                     @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long id);
 
@@ -81,7 +81,7 @@ public interface UserApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User has been restored"),
             @ApiResponse(responseCode = "404", description = "User not found")})
-    @PutMapping(value = "/users/{id}/restore", consumes = {"application/json"})
+    @PutMapping(value = "/users/{id}/restore")
     ResponseEntity<Void> restoreUser(@Parameter(description = "ID of user to be restored", required = true)
                                      @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long id);
 
