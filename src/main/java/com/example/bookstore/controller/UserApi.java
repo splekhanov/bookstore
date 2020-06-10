@@ -1,15 +1,11 @@
 package com.example.bookstore.controller;
 
-import com.example.bookstore.model.Genre;
 import com.example.bookstore.model.security.Credentials;
 import com.example.bookstore.model.security.Role;
 import com.example.bookstore.model.security.Token;
 import com.example.bookstore.model.security.User;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.Authorization;
-import io.swagger.annotations.ExampleProperty;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -38,12 +34,12 @@ import java.util.List;
 @Api(tags = "user", description = "Users API")
 public interface UserApi {
 
-    @io.swagger.annotations.ApiOperation(value = "Create user")
+    @io.swagger.annotations.ApiOperation(value = "Register new user")
     @io.swagger.annotations.ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 201, message = "User created", response = User.class),
             @io.swagger.annotations.ApiResponse(code = 404, message = "User role not found"),
             @io.swagger.annotations.ApiResponse(code = 409, message = "User already exists")})
-    @Operation(summary = "Register new user")
+    @Operation(summary = "Register new user", security = @SecurityRequirement(name = "basicAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User created", content = @Content(schema = @Schema(implementation = User.class))),
             @ApiResponse(responseCode = "404", description = "User role not found"),
@@ -52,11 +48,11 @@ public interface UserApi {
     ResponseEntity<User> registerUser(@Parameter(description = "User object", required = true) @Valid @RequestBody User user);
 
 
-    @io.swagger.annotations.ApiOperation(value = "Authorize user and get Bearer token")
+    @io.swagger.annotations.ApiOperation(value = "Authorize user and generate token")
     @io.swagger.annotations.ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 201, message = "Token created", response = Token.class),
             @io.swagger.annotations.ApiResponse(code = 401, message = "Invalid login or password provided")})
-    @Operation(summary = "Authorize user and get Bearer token")
+    @Operation(summary = "Authorize user and generate token", security = @SecurityRequirement(name = "basicAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Token created", content = @Content(schema = @Schema(implementation = Token.class))),
             @ApiResponse(responseCode = "401", description = "Invalid login or password provided")})
@@ -74,8 +70,8 @@ public interface UserApi {
             @ApiResponse(responseCode = "404", description = "User not found")})
     @PutMapping(value = "/users/{id}", produces = {"application/json"})
     ResponseEntity<User> updateUser(@Parameter(description = "ID of user to update", required = true)
-                                     @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long id,
-                                     @Parameter(description = "User object record") @RequestBody User user);
+                                    @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long id,
+                                    @Parameter(description = "User object record") @RequestBody User user);
 
 
     @io.swagger.annotations.ApiOperation(value = "Get all existing users", authorizations = @Authorization(value = "Authorization"))

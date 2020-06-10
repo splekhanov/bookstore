@@ -29,11 +29,11 @@ import java.util.List;
 @Api(tags = "genre", description = "Genres API")
 public interface GenreApi {
 
-    @io.swagger.annotations.ApiOperation(value = "Create genre", authorizations = @Authorization(value = "Authorization"))
+    @io.swagger.annotations.ApiOperation(value = "Add new genre", authorizations = @Authorization(value = "Authorization"))
     @io.swagger.annotations.ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 201, message = "Genre created", response = Genre.class),
             @io.swagger.annotations.ApiResponse(code = 409, message = "Genre already exists")})
-    @Operation(summary = "Create a genre", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Add new genre", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Genre created"),
             @ApiResponse(responseCode = "409", description = "Genre already exists")})

@@ -33,15 +33,14 @@ import java.util.List;
 @Api(tags = "book", description = "Books API")
 public interface BooksApi {
 
-    @io.swagger.annotations.ApiOperation(value = "Create a book", authorizations = @Authorization(value = "Authorization"))
+    @io.swagger.annotations.ApiOperation(value = "Add new book", authorizations = @Authorization(value = "Authorization"))
     @io.swagger.annotations.ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 201, message = "Book created", response = Book.class),
             @io.swagger.annotations.ApiResponse(code = 409, message = "Book already exists")})
-    @Operation(summary = "Create a book", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Add new book", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Book created", content = @Content(schema = @Schema(implementation = Book.class))),
             @ApiResponse(responseCode = "409", description = "Book already exists")})
-    @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(value = "/books", consumes = {"application/json"})
     ResponseEntity<Book> createBook(@Parameter(description = "Book object that needs to be added to the store", required = true) @Valid @RequestBody Book body);
 
