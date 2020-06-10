@@ -77,20 +77,6 @@ public class UpdateBookTests extends BaseTestClass {
                 .body("genres[1].type", equalTo("Dystopian fiction"));
     }
 
-    @Test
-    public void updateBook_withInvalidId_shouldReturn400() {
-        int id = createBookPrecondition(requestSpec, book2);
-        book2.setId(656L);
-        given()
-                .spec(requestSpec)
-                .body(book2)
-                .when()
-                .put("/books/" + id)
-                .then()
-                .assertThat()
-                .statusCode(400).body("message", equalTo("ID parameter doesn't match object's ID! Object ID may be omitted."));
-    }
-
     private void initBooks() {
         book1 = Book.builder()
                 .isbn("9780451524935")

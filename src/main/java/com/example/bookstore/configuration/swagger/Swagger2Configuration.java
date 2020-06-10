@@ -1,4 +1,4 @@
-package com.example.bookstore.configuration;
+package com.example.bookstore.configuration.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerDocumentationConfig {
+public class Swagger2Configuration {
 
     private ApiInfo apiEndPointsInfo() {
         return new ApiInfoBuilder()
@@ -56,7 +56,7 @@ public class SwaggerDocumentationConfig {
     private SecurityContext securityContext() {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
-                .forPaths(PathSelectors.regex("/api/v1.*"))
+                .forPaths(PathSelectors.regex("/api/v2.*"))
                 .build();
     }
 

@@ -1,19 +1,22 @@
 package com.example.bookstore.service.impl;
 
-import com.example.bookstore.repository.security.RoleRepository;
-import com.example.bookstore.repository.security.UserRepository;
 import com.example.bookstore.exceptions.AlreadyExistException;
 import com.example.bookstore.exceptions.NotFoundException;
 import com.example.bookstore.model.security.Role;
 import com.example.bookstore.model.security.User;
+import com.example.bookstore.repository.security.RoleRepository;
+import com.example.bookstore.repository.security.UserRepository;
 import com.example.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static com.example.bookstore.utils.constants.Roles.USER;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,10 +37,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUser(User user) {
         checkIfUserExists(user);
-        Role userRole = roleRepository.findByName("admin").orElse(new Role("admin"));
-        List<Role> roles = new ArrayList<>();
-        roles.add(userRole);
-        user.setRoles(roles);
+        checkAndSetRoles(user);
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         userRepository.saveAndFlush(user);
@@ -66,6 +66,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
     public User getUserById(Long id) {
         return findUserById(id);
     }
@@ -91,11 +96,27 @@ public class UserServiceImpl implements UserService {
         if (existingUserByName.isPresent()) {
             throw new AlreadyExistException(String.format("User with name '%s' already exists!", user.getName()));
         }
-        if(user.getId() != null) {
+        if (user.getId() != null) {
             existingUserById = userRepository.findById(user.getId());
-            if(existingUserById.isPresent()) {
+            if (existingUserById.isPresent()) {
                 throw new AlreadyExistException(String.format("User with ID '%s' already exists!", user.getId()));
             }
         }
+    }
+
+    private void checkAndSetRoles(User user) {
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            user.setRoles(Collections.singletonList(roleRepository.findByName(USER).get()));
+        }
+        List<Long> availableRolesIds = roleRepository.findAll().stream().map(Role::getId).collect(Collectors.toList());
+        List<Long> userRolesIds = user.getRoles().stream().map(Role::getId).collect(Collectors.toList());
+        for (Long userRolesId : userRolesIds) {
+            if (!availableRolesIds.contains(userRolesId)) {
+                throw new NotFoundException(String.format("Role with ID '%d' not found", userRolesId));
+            }
+        }
+        List<Role> rolesToSet = roleRepository.findAll().stream().filter(role -> userRolesIds.stream()
+                .anyMatch(i -> role.getId().equals(i))).collect(Collectors.toList());
+        user.setRoles(rolesToSet);
     }
 }

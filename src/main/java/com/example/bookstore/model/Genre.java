@@ -29,10 +29,12 @@ import java.util.List;
 public class Genre implements IdentifiedEntity {
 
     @Id
+    @ApiModelProperty(position = 1)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
+    @ApiModelProperty(position = 2)
     @Column(name = "type", nullable = false)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String type;

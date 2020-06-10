@@ -1,4 +1,4 @@
-package com.example.bookstore.configuration;
+package com.example.bookstore.configuration.security;
 
 import com.example.bookstore.security.JwtAuthenticationEntryPoint;
 import com.example.bookstore.security.JwtAuthenticationFilter;
@@ -73,6 +73,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/favicon.ico",
                         "/swagger-ui.html",
                         "/swagger-ui/**",
+                        "/v2/api-docs/**",
+                        "/v3/swagger-ui.html",
+                        "/v3/swagger-ui/**",
                         "/v3/api-docs/**",
                         "/",
                         "/h2-console/**",

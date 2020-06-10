@@ -52,12 +52,6 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public void updateGenre(Long id, Genre genre) throws NotFoundException {
-        Long objectId = genre.getId();
-        if (objectId != null) {
-            if (!id.equals(objectId)) {
-                throw new BadRequestException("ID parameter doesn't match object's ID! Object ID may be omitted.");
-            }
-        }
         Genre bookToUpdate = getGenreById(id);
         genre.setId(bookToUpdate.getId());
         saveGenre(genre);
