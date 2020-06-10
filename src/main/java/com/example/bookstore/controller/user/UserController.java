@@ -37,7 +37,7 @@ public class UserController implements UserApi {
     @Override
     public ResponseEntity<User> registerUser(User userToRegister) {
         userService.createUser(userToRegister);
-        User user = userService.getUserByName(userToRegister.getName());
+        User user = userService.getUserByEmail(userToRegister.getEmail());
         URI location = URI.create(String.format("/%s", user.getId()));
         return ResponseEntity.created(location).body(user);
     }
@@ -65,8 +65,8 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<User> getUserByName(@RequestParam String name) {
-        return ok(userService.getUserByName(name));
+    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
+        return ok(userService.getUserByEmail(email));
     }
 
     @Override

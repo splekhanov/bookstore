@@ -14,7 +14,7 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    User getUserByName(String name);
+    User getUserByEmail(String email);
 
     void restoreUser(Long id);
 

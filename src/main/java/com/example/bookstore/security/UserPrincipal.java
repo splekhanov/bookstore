@@ -27,7 +27,7 @@ public class UserPrincipal implements UserDetails {
     private List<Role> roles;
 
     public static UserPrincipal create(User user) {
-        return new UserPrincipal(user.getId(), user.getName(), user.getPassword(), user.getRoles());
+        return new UserPrincipal(user.getId(), user.getEmail(), user.getPassword(), user.getRoles());
     }
 
     @Override
@@ -70,7 +70,7 @@ public class UserPrincipal implements UserDetails {
     public User getUser() {
         return User.builder()
                 .id(id)
-                .name(name)
+                .email(name)
                 .password(password)
                 .roles(roles)
                 .build();

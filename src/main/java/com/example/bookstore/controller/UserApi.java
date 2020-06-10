@@ -97,17 +97,17 @@ public interface UserApi {
                                      @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long id);
 
 
-    @io.swagger.annotations.ApiOperation(value = "Get user by name", authorizations = @Authorization(value = "Authorization"))
+    @io.swagger.annotations.ApiOperation(value = "Get user by email", authorizations = @Authorization(value = "Authorization"))
     @io.swagger.annotations.ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 200, message = "User record", response = User.class),
             @io.swagger.annotations.ApiResponse(code = 404, message = "User not found")})
-    @Operation(summary = "Get user by name", security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Get user by email", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User record", content = @Content(schema = @Schema(implementation = User.class))),
             @ApiResponse(responseCode = "404", description = "User not found")})
-    @GetMapping(value = "/users/name/{name}", produces = {"application/json"})
-    ResponseEntity<User> getUserByName(@Parameter(description = "Name of user to return", required = true)
-                                       @NotBlank @PathVariable String name);
+    @GetMapping(value = "/users/email/{email}", produces = {"application/json"})
+    ResponseEntity<User> getUserByEmail(@Parameter(description = "Email of user to return", required = true)
+                                       @NotBlank @PathVariable String email);
 
 
     @io.swagger.annotations.ApiOperation(value = "Delete user by ID", authorizations = @Authorization(value = "Authorization"))

@@ -43,12 +43,12 @@ public class User implements IdentifiedEntity {
     private Long id;
 
     @ApiModelProperty(position = 2)
-    @NotBlank(message = "User name is mandatory")
-    @Email(message = "Username should be valid email")
-    @Schema(description = "User e-mail as username/login",
+    @NotBlank(message = "Email is mandatory")
+    @Email(message = "Email should be valid")
+    @Schema(description = "User e-mail as login",
             example = "user@hotmail.com", required = true)
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "email", nullable = false)
+    private String email;
 
     @ApiModelProperty(position = 3)
     @NotBlank(message = "User password is mandatory")

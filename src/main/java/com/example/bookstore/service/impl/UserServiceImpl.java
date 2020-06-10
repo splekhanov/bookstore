@@ -7,6 +7,7 @@ import com.example.bookstore.model.security.User;
 import com.example.bookstore.repository.security.UserRepository;
 import com.example.bookstore.service.RoleService;
 import com.example.bookstore.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,10 +55,11 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(Long id) {
         User user = findUserById(id);
         if (!user.isEnabled()) {
-            throw new NotFoundException("User has been deleted");
+            throw new NotFoundException("User with ID '" + id +"' not found");
         } else {
             user.setEnabled(false);
-            userRepository.save(user);
+            user.setPassword(userRepository.findUserPassword(id));
+            userRepository.saveAndFlush(user);
         }
     }
 
@@ -68,6 +70,7 @@ public class UserServiceImpl implements UserService {
             throw new AlreadyExistException(String.format("User with ID %d is already active and doesn't need to be restored", id));
         } else {
             userToRestore.setEnabled(true);
+            userToRestore.setPassword(userRepository.findUserPassword(id));
             userRepository.save(userToRestore);
         }
     }
@@ -83,30 +86,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByName(String name) {
-        User user = userRepository.findByName(name).orElseThrow(() ->
-                new NotFoundException(String.format("User with name '%s' not found!", name)));
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() ->
+                new NotFoundException(String.format("User with email '%s' not found!", email)));
         user.setPassword("");
         return user;
     }
 
     private User findUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() ->
-                new NotFoundException(String.format("User with name '%d' not found!", id)));
+                new NotFoundException(String.format("User with ID '%d' not found!", id)));
         user.setPassword("");
         return user;
     }
 
     private void checkIfUserExists(User user) {
         Optional<User> existingUserById;
-        Optional<User> existingUserByName = userRepository.findByName(user.getName());
+        Optional<User> existingUserByName = userRepository.findByEmail(user.getEmail());
         if (existingUserByName.isPresent()) {
-            throw new AlreadyExistException(String.format("User with name '%s' already exists!", user.getName()));
+            throw new AlreadyExistException(String.format("User with email '%s' already exists!", user.getEmail()));
         }
         if (user.getId() != null) {
             existingUserById = userRepository.findById(user.getId());
             if (existingUserById.isPresent()) {
-                throw new AlreadyExistException(String.format("User with ID '%s' already exists!", user.getId()));
+                throw new AlreadyExistException(String.format("User with ID '%d' already exists!", user.getId()));
             }
         }
     }
