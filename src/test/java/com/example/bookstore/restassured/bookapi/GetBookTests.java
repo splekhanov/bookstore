@@ -18,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
+import static com.example.bookstore.restassured.base.Token.TOKEN;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
@@ -37,7 +38,7 @@ public class GetBookTests extends BaseTestClass {
     public void setUp() {
         initBooks();
         PreemptiveOAuth2HeaderScheme oAuth2Scheme = new PreemptiveOAuth2HeaderScheme();
-        oAuth2Scheme.setAccessToken(generateToken(port));
+        oAuth2Scheme.setAccessToken(TOKEN);
         requestSpec = new RequestSpecBuilder()
                 .setBaseUri("http://localhost")
                 .setPort(port)

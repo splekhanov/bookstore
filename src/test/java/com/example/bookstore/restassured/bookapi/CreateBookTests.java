@@ -3,6 +3,7 @@ package com.example.bookstore.restassured.bookapi;
 import com.example.bookstore.restassured.base.BaseTestClass;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.model.Genre;
+import com.example.bookstore.restassured.base.Token;
 import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveOAuth2HeaderScheme;
 import io.restassured.builder.RequestSpecBuilder;
@@ -20,6 +21,7 @@ import java.util.Arrays;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static com.example.bookstore.restassured.base.Token.TOKEN;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,7 +44,7 @@ public class CreateBookTests extends BaseTestClass {
     public void setUp() {
         initBooks();
         PreemptiveOAuth2HeaderScheme oAuth2Scheme = new PreemptiveOAuth2HeaderScheme();
-        oAuth2Scheme.setAccessToken(generateToken(port));
+        oAuth2Scheme.setAccessToken(TOKEN);
         requestSpec = new RequestSpecBuilder()
                 .setBaseUri("http://localhost")
                 .setPort(port)

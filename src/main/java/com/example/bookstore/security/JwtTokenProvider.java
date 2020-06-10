@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Slf4j
@@ -27,9 +29,14 @@ public class JwtTokenProvider {
     @Value("${security.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
-    public String generateToken(Authentication authentication) {
+    public String generateToken(Authentication authentication) throws ParseException {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         Date now = new Date();
+
+//        SimpleDateFormat dateformat = new SimpleDateFormat("dd-M-yyyy");
+//        String strdate = "01-01-2022";
+//        Date expiryDate = dateformat.parse(strdate);
+
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
         Gson gson = new GsonBuilder().setExclusionStrategies(new GsonIgnoreStrategy()).create();
         return Jwts.builder()

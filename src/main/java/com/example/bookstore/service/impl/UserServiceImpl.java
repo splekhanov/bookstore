@@ -21,23 +21,18 @@ import static com.example.bookstore.utils.constants.Roles.USER;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
-
-    @Autowired
     private RoleService roleService;
 
-//    @Autowired
-//    public UserServiceImpl(UserRepository userRepository,
-//                           PasswordEncoder bCryptPasswordEncoder,
-//                           RoleService roleService) {
-//        this.userRepository = userRepository;
-//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-//        this.roleService = roleService;
-//    }
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordEncoder bCryptPasswordEncoder,
+                           RoleService roleService) {
+        this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.roleService = roleService;
+    }
 
     @Override
     public void createUser(User user) {
