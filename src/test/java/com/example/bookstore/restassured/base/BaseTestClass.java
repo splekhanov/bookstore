@@ -11,15 +11,9 @@ import static io.restassured.module.mockmvc.RestAssuredMockMvc.with;
 
 public class BaseTestClass {
 
-    public String generateToken(int port) {
-        String url = "http://localhost:" + port + "/users/auth";
-        Credentials creds = Credentials.builder().username("admin@epam.com").password("1234").build();
-        return given().accept(ContentType.JSON).contentType(ContentType.JSON).log().all().body(creds).when().post(url).then().assertThat()
-                .statusCode(200).extract().body().jsonPath().getString("access_token");
-    }
-
     public int createBookPrecondition(RequestSpecification requestSpec, Book book) {
         String id = given()
+                .auth().basic("admin@epam.com", "1234")
                 .spec(requestSpec)
                 .body(book)
                 .when()
@@ -34,6 +28,7 @@ public class BaseTestClass {
 
     public void createBookPreconditionNoValidation(RequestSpecification requestSpec, Book book) {
         given()
+                .auth().basic("admin@epam.com", "1234")
                 .spec(requestSpec)
                 .body(book)
                 .when()

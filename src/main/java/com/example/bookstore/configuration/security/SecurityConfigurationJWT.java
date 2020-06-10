@@ -7,6 +7,7 @@ import com.example.bookstore.utils.filter.CustomCorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -26,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         securedEnabled = true,
         jsr250Enabled = true,
         prePostEnabled = true)
+@Order(1)
 public class SecurityConfigurationJWT extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailsService userDetailsService;

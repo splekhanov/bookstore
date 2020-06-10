@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import static com.example.bookstore.utils.constants.Roles.ADMIN;
+import static com.example.bookstore.utils.constants.Roles.USER;
+
 @Configuration
 @EnableWebSecurity
 @Order(2)
@@ -24,15 +27,13 @@ public class SecurityConfigurationBasicAuth extends WebSecurityConfigurerAdapter
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .withUser("admin@epam.com").password(new BCryptPasswordEncoder().encode("1234"))
-                .authorities("ROLE_USER");
+                .authorities(USER, ADMIN);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(
-                        "/users/auth",
-                        "/users/registration",
                         "/securityNone",
                         "/**/api-docs",
                         "/swagger**",
