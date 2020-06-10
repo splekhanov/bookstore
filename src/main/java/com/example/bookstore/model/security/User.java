@@ -1,7 +1,9 @@
 package com.example.bookstore.model.security;
 
+import com.example.bookstore.model.Address;
 import com.example.bookstore.model.IdentifiedEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,6 +23,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -71,5 +74,10 @@ public class User implements IdentifiedEntity {
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
+
+    @ApiModelProperty(position = 6)
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private List<Address> addresses;
 
 }
