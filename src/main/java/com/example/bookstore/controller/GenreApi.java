@@ -32,12 +32,10 @@ public interface GenreApi {
     @io.swagger.annotations.ApiOperation(value = "Create genre", authorizations = @Authorization(value = "Authorization"))
     @io.swagger.annotations.ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 201, message = "Genre created", response = Genre.class),
-            @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid genre"),
             @io.swagger.annotations.ApiResponse(code = 409, message = "Genre already exists")})
     @Operation(summary = "Create a genre", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Genre created"),
-            @ApiResponse(responseCode = "400", description = "Invalid genre"),
             @ApiResponse(responseCode = "409", description = "Genre already exists")})
     @PostMapping(value = "/genres", consumes = {"application/json"})
     ResponseEntity<Genre> createGenre(@Parameter(description = "Genre object that needs to be added to the store") @Valid @RequestBody Genre body);
@@ -68,14 +66,14 @@ public interface GenreApi {
 
     @io.swagger.annotations.ApiOperation(value = "Update an existing genre", authorizations = @Authorization(value = "Authorization"))
     @io.swagger.annotations.ApiResponses(value = {
-            @io.swagger.annotations.ApiResponse(code = 200, message = "Genre updated"),
+            @io.swagger.annotations.ApiResponse(code = 200, message = "Genre updated", response = Genre.class),
             @io.swagger.annotations.ApiResponse(code = 404, message = "Genre not found")})
     @Operation(summary = "Update an existing genre", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Genre updated", content = @Content(schema = @Schema(implementation = Genre.class))),
             @ApiResponse(responseCode = "404", description = "Genre not found")})
     @PutMapping(value = "/genre/{id}", produces = {"application/json"})
-    ResponseEntity<Void> updateGenre(@Parameter(description = "ID of genre to update", required = true)
+    ResponseEntity<Genre> updateGenre(@Parameter(description = "ID of genre to update", required = true)
                                      @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long id,
                                      @Parameter(description = "Genre object record") @RequestBody Genre body);
 

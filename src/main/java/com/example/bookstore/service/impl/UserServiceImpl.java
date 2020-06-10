@@ -4,8 +4,8 @@ import com.example.bookstore.exceptions.AlreadyExistException;
 import com.example.bookstore.exceptions.NotFoundException;
 import com.example.bookstore.model.security.Role;
 import com.example.bookstore.model.security.User;
-import com.example.bookstore.repository.security.RoleRepository;
 import com.example.bookstore.repository.security.UserRepository;
+import com.example.bookstore.service.RoleService;
 import com.example.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,18 +21,23 @@ import static com.example.bookstore.utils.constants.Roles.USER;
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder bCryptPasswordEncoder;
-    private final RoleRepository roleRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository,
-                           PasswordEncoder bCryptPasswordEncoder,
-                           RoleRepository roleReposiroty) {
-        this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.roleRepository = roleReposiroty;
-    }
+    private PasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private RoleService roleService;
+
+//    @Autowired
+//    public UserServiceImpl(UserRepository userRepository,
+//                           PasswordEncoder bCryptPasswordEncoder,
+//                           RoleService roleService) {
+//        this.userRepository = userRepository;
+//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+//        this.roleService = roleService;
+//    }
 
     @Override
     public void createUser(User user) {
@@ -41,6 +46,13 @@ public class UserServiceImpl implements UserService {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public User updateUser(Long id, User user) {
+        User userToUpdate = getUserById(id);
+        user.setId(userToUpdate.getId());
+        return userRepository.saveAndFlush(user);
     }
 
     @Override
@@ -106,17 +118,10 @@ public class UserServiceImpl implements UserService {
 
     private void checkAndSetRoles(User user) {
         if (user.getRoles() == null || user.getRoles().isEmpty()) {
-            user.setRoles(Collections.singletonList(roleRepository.findByName(USER).get()));
+            user.setRoles(Collections.singletonList(roleService.getRoleByName(USER)));
         }
-        List<Long> availableRolesIds = roleRepository.findAll().stream().map(Role::getId).collect(Collectors.toList());
-        List<Long> userRolesIds = user.getRoles().stream().map(Role::getId).collect(Collectors.toList());
-        for (Long userRolesId : userRolesIds) {
-            if (!availableRolesIds.contains(userRolesId)) {
-                throw new NotFoundException(String.format("Role with ID '%d' not found", userRolesId));
-            }
-        }
-        List<Role> rolesToSet = roleRepository.findAll().stream().filter(role -> userRolesIds.stream()
-                .anyMatch(i -> role.getId().equals(i))).collect(Collectors.toList());
+        List<Role> rolesToSet = user.getRoles().stream()
+                .map(r -> roleService.getRole(r.getId())).collect(Collectors.toList());
         user.setRoles(rolesToSet);
     }
 }

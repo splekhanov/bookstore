@@ -1,18 +1,12 @@
 package com.example.bookstore.service.impl;
 
-import com.example.bookstore.exceptions.AlreadyExistException;
 import com.example.bookstore.exceptions.NotFoundException;
 import com.example.bookstore.model.security.Role;
-import com.example.bookstore.model.security.User;
 import com.example.bookstore.repository.security.RoleRepository;
-import com.example.bookstore.repository.security.UserRepository;
 import com.example.bookstore.service.RoleService;
-import com.example.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,5 +23,23 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> getRoles() {
         return roleRepository.findAll();
+    }
+
+    @Override
+    public Role getRole(Long id) throws NotFoundException {
+        Optional<Role> roleOpt = roleRepository.findById(id);
+        if (!roleOpt.isPresent()) {
+            throw new NotFoundException("Role with ID '" + id + "' not found");
+        }
+        return roleOpt.get();
+    }
+
+    @Override
+    public Role getRoleByName(String name) throws NotFoundException {
+        Optional<Role> roleOpt = roleRepository.findByName(name);
+        if (!roleOpt.isPresent()) {
+            throw new NotFoundException("Role with name '" + roleOpt + "' not found");
+        }
+        return roleOpt.get();
     }
 }

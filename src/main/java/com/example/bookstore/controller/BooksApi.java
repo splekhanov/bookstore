@@ -36,12 +36,10 @@ public interface BooksApi {
     @io.swagger.annotations.ApiOperation(value = "Create a book", authorizations = @Authorization(value = "Authorization"))
     @io.swagger.annotations.ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 201, message = "Book created", response = Book.class),
-            @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid book"),
             @io.swagger.annotations.ApiResponse(code = 409, message = "Book already exists")})
     @Operation(summary = "Create a book", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Book created", content = @Content(schema = @Schema(implementation = Book.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid book"),
             @ApiResponse(responseCode = "409", description = "Book already exists")})
     @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping(value = "/books", consumes = {"application/json"})
@@ -94,11 +92,11 @@ public interface BooksApi {
     @io.swagger.annotations.ApiOperation(value = "Update existing book", authorizations = @Authorization(value = "Authorization"))
     @io.swagger.annotations.ApiResponses(value = {
             @io.swagger.annotations.ApiResponse(code = 200, message = "Book updated"),
-            @io.swagger.annotations.ApiResponse(code = 400, message = "Invalid book")})
+            @io.swagger.annotations.ApiResponse(code = 404, message = "Book not found")})
     @Operation(summary = "Update existing book", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Book updated"),
-            @ApiResponse(responseCode = "400", description = "Invalid book")})
+            @ApiResponse(responseCode = "404", description = "Book not found")})
     @PutMapping(value = "/books/{id}", produces = {"application/json"})
     ResponseEntity<Void> updateBook(@Parameter(description = "ID of book to update", required = true)
                                     @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long id,

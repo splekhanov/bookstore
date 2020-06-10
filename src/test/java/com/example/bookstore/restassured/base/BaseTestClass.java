@@ -1,17 +1,13 @@
-package com.example.bookstore.base;
+package com.example.bookstore.restassured.base;
 
 import com.example.bookstore.model.Book;
 import com.example.bookstore.model.security.Credentials;
-import com.example.bookstore.model.security.Token;
-import com.example.bookstore.model.security.User;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import org.junit.Before;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.post;
 import static io.restassured.module.mockmvc.RestAssuredMockMvc.with;
-import static org.hamcrest.CoreMatchers.equalTo;
 
 public class BaseTestClass {
 

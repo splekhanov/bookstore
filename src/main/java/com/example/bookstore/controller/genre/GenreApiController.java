@@ -38,8 +38,8 @@ public class GenreApiController implements GenreApi {
     }
 
     @Override
-    public ResponseEntity<Void> updateGenre(Long id, Genre genre) {
-        genreService.updateGenre(id, genre);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Genre> updateGenre(Long id, Genre genre) {
+        Genre updatedGenre = genreService.updateGenre(id, genre);
+        return ResponseEntity.ok(updatedGenre);
     }
 }

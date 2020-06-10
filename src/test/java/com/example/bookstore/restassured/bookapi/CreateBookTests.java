@@ -1,9 +1,8 @@
-package com.example.bookstore.bookapi;
+package com.example.bookstore.restassured.bookapi;
 
-import com.example.bookstore.base.BaseTestClass;
+import com.example.bookstore.restassured.base.BaseTestClass;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.model.Genre;
-import com.example.bookstore.model.security.Token;
 import io.restassured.RestAssured;
 import io.restassured.authentication.PreemptiveOAuth2HeaderScheme;
 import io.restassured.builder.RequestSpecBuilder;

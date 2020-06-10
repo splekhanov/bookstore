@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.Min;
 import java.net.URI;
 import java.util.List;
 
@@ -44,6 +45,12 @@ public class UserController implements UserApi {
     @Override
     public ResponseEntity<Token> authenticateUser(Credentials credentials) {
         return ok(authService.authenticateUser(credentials));
+    }
+
+    @Override
+    public ResponseEntity<User> updateUser(Long id, User user) {
+        User updatedUser = userService.updateUser(id, user);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @Override

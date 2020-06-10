@@ -1,7 +1,6 @@
 package com.example.bookstore.service.impl;
 
 import com.example.bookstore.exceptions.AlreadyExistException;
-import com.example.bookstore.exceptions.BadRequestException;
 import com.example.bookstore.exceptions.NotFoundException;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.model.Genre;

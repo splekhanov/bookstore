@@ -1,6 +1,6 @@
-package com.example.bookstore.bookapi;
+package com.example.bookstore.restassured.bookapi;
 
-import com.example.bookstore.base.BaseTestClass;
+import com.example.bookstore.restassured.base.BaseTestClass;
 import com.example.bookstore.model.Book;
 import com.example.bookstore.model.Genre;
 import io.restassured.RestAssured;

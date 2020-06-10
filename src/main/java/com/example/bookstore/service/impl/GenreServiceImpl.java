@@ -1,10 +1,9 @@
 package com.example.bookstore.service.impl;
 
-import com.example.bookstore.repository.genre.GenreRepository;
 import com.example.bookstore.exceptions.AlreadyExistException;
-import com.example.bookstore.exceptions.BadRequestException;
 import com.example.bookstore.exceptions.NotFoundException;
 import com.example.bookstore.model.Genre;
+import com.example.bookstore.repository.genre.GenreRepository;
 import com.example.bookstore.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +23,9 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Genre createGenre(Genre genre) throws AlreadyExistException {
-        if(genre.getId() != null) {
+        if (genre.getId() != null) {
             Optional<Genre> existingGenre = genreRepository.findById(genre.getId());
-            if(existingGenre.isPresent()) {
+            if (existingGenre.isPresent()) {
                 throw new AlreadyExistException("Genre with ID '" + genre.getId() + "' already exists. Use 'PUT genres/" + genre.getId() + "' to update existing record");
             }
         }
@@ -51,10 +50,10 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public void updateGenre(Long id, Genre genre) throws NotFoundException {
-        Genre bookToUpdate = getGenreById(id);
-        genre.setId(bookToUpdate.getId());
-        saveGenre(genre);
+    public Genre updateGenre(Long id, Genre genre) throws NotFoundException {
+        Genre genreToUpdate = getGenreById(id);
+        genre.setId(genreToUpdate.getId());
+        return saveGenre(genre);
     }
 
     private Genre saveGenre(Genre genre) {
