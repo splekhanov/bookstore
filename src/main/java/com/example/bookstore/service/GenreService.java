@@ -1,7 +1,7 @@
 package com.example.bookstore.service;
 
-import com.example.bookstore.exceptions.AlreadyExistException;
-import com.example.bookstore.exceptions.NotFoundException;
+import com.example.bookstore.exception.AlreadyExistException;
+import com.example.bookstore.exception.NotFoundException;
 import com.example.bookstore.model.Genre;
 
 import java.util.List;

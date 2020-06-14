@@ -1,7 +1,7 @@
 package com.example.bookstore.security;
 
-import com.example.bookstore.model.security.Role;
-import com.example.bookstore.model.security.User;
+import com.example.bookstore.model.user.Role;
+import com.example.bookstore.model.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;

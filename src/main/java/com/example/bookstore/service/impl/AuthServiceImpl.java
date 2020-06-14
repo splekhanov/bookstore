@@ -1,12 +1,10 @@
 package com.example.bookstore.service.impl;
 
-import com.example.bookstore.exceptions.InvalidCredentialsException;
-import com.example.bookstore.exceptions.NotFoundException;
+import com.example.bookstore.exception.InvalidCredentialsException;
 import com.example.bookstore.model.security.Credentials;
 import com.example.bookstore.model.security.Token;
 import com.example.bookstore.security.JwtTokenProvider;
 import com.example.bookstore.service.AuthService;
-import com.example.bookstore.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;

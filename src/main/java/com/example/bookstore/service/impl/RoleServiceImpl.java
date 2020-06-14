@@ -1,8 +1,8 @@
 package com.example.bookstore.service.impl;
 
-import com.example.bookstore.exceptions.NotFoundException;
-import com.example.bookstore.model.security.Role;
-import com.example.bookstore.repository.security.RoleRepository;
+import com.example.bookstore.exception.NotFoundException;
+import com.example.bookstore.model.user.Role;
+import com.example.bookstore.repository.user.RoleRepository;
 import com.example.bookstore.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

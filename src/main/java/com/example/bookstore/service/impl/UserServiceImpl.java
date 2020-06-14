@@ -1,38 +1,45 @@
 package com.example.bookstore.service.impl;
 
-import com.example.bookstore.exceptions.AlreadyExistException;
-import com.example.bookstore.exceptions.NotFoundException;
-import com.example.bookstore.model.security.Role;
-import com.example.bookstore.model.security.User;
-import com.example.bookstore.repository.security.UserRepository;
+import com.example.bookstore.exception.AlreadyExistException;
+import com.example.bookstore.exception.InsufficientPermissionsException;
+import com.example.bookstore.exception.NotFoundException;
+import com.example.bookstore.model.user.Address;
+import com.example.bookstore.model.user.Role;
+import com.example.bookstore.model.user.User;
+import com.example.bookstore.repository.user.AddressRepository;
+import com.example.bookstore.repository.user.UserRepository;
 import com.example.bookstore.service.RoleService;
 import com.example.bookstore.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.example.bookstore.utils.UserUtils.getCurrentUserId;
+import static com.example.bookstore.utils.constants.Roles.ADMIN;
 import static com.example.bookstore.utils.constants.Roles.USER;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
+    private AddressRepository addressRepository;
     private PasswordEncoder bCryptPasswordEncoder;
     private RoleService roleService;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder bCryptPasswordEncoder,
-                           RoleService roleService) {
+                           RoleService roleService, AddressRepository addressRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.roleService = roleService;
+        this.addressRepository = addressRepository;
     }
 
     @Override
@@ -89,14 +96,12 @@ public class UserServiceImpl implements UserService {
     public User getUserByEmail(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() ->
                 new NotFoundException(String.format("User with email '%s' not found!", email)));
-        user.setPassword("");
         return user;
     }
 
     private User findUserById(Long id) {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format("User with ID '%d' not found!", id)));
-        user.setPassword("");
         return user;
     }
 
@@ -121,5 +126,41 @@ public class UserServiceImpl implements UserService {
         List<Role> rolesToSet = user.getRoles().stream()
                 .map(r -> roleService.getRole(r.getId())).collect(Collectors.toList());
         user.setRoles(rolesToSet);
+    }
+
+    @Override
+    public void createAddress(Long userId, Address address) {
+        if (isHasPermission(userId)) {
+            address.setUser(getUserById(userId));
+            System.out.println(address);
+            addressRepository.save(address);
+        } else {
+            throw new InsufficientPermissionsException("Insufficient permissions");
+        }
+    }
+
+    @Override
+    public List<Address> getUserAddresses(Long userId) {
+        if (isHasPermission(userId)) {
+            User user = getUserById(userId);
+            return addressRepository.getAddressByUser(user);
+        } else {
+            throw new InsufficientPermissionsException("Insufficient permissions");
+        }
+    }
+
+    @Override
+    public void updateUserAddress(Long userId, Long addressId, Address address) {
+
+    }
+
+    @Override
+    public void deleteUserAddress(Long userId, Long addressId) {
+
+    }
+
+    private boolean isHasPermission(Long userId) {
+        User currentUser = getUserById(getCurrentUserId().get());
+        return currentUser.getRoles().stream().anyMatch(r -> r.getName().equals(ADMIN)) || userId.equals(currentUser.getId());
     }
 }

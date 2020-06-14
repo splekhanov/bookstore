@@ -1,9 +1,10 @@
 package com.example.bookstore.controller;
 
 import com.example.bookstore.model.security.Credentials;
-import com.example.bookstore.model.security.Role;
+import com.example.bookstore.model.user.Address;
+import com.example.bookstore.model.user.Role;
 import com.example.bookstore.model.security.Token;
-import com.example.bookstore.model.security.User;
+import com.example.bookstore.model.user.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.Authorization;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.security.Principal;
 import java.util.List;
 
 @Validated
@@ -135,14 +137,28 @@ public interface UserApi {
     ResponseEntity<Void> restoreUser(@Parameter(description = "ID of user to be restored", required = true)
                                      @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long id);
 
-
-    @io.swagger.annotations.ApiOperation(value = "Get all existing user roles", authorizations = @Authorization(value = "Authorization"))
+    @io.swagger.annotations.ApiOperation(value = "Get addresses of user by user ID", authorizations = @Authorization(value = "Authorization"))
     @io.swagger.annotations.ApiResponses(value = {
-            @io.swagger.annotations.ApiResponse(code = 200, message = "Genre list", response = Role.class, responseContainer = "List")})
-    @Operation(summary = "Get all existing user roles", security = @SecurityRequirement(name = "bearerAuth"))
+            @io.swagger.annotations.ApiResponse(code = 200, message = "Address list", response = Address.class, responseContainer = "List"),
+            @io.swagger.annotations.ApiResponse(code = 404, message = "User not found")})
+    @Operation(summary = "Get addresses of user by user ID", security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Genre list", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Role.class))))})
-    @GetMapping(value = "/users/roles", produces = {"application/json"})
-    ResponseEntity<List<Role>> getRoles();
+            @ApiResponse(responseCode = "200", description = "Address list", content = @Content(array = @ArraySchema(schema = @Schema(implementation = Address.class)))),
+            @ApiResponse(responseCode = "404", description = "User not found")})
+    @GetMapping(value = "/users/{user_id}/addresses", produces = {"application/json"})
+    ResponseEntity<List<Address>> getAddresses(@Parameter(description = "ID of the user whose addresses to get", required = true)
+                                               @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long user_id);
+
+
+    @io.swagger.annotations.ApiOperation(value = "Add new address", authorizations = @Authorization(value = "Authorization"))
+    @io.swagger.annotations.ApiResponses(value = {
+            @io.swagger.annotations.ApiResponse(code = 201, message = "Address created", response = User.class)})
+    @Operation(summary = "Add new address", security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Address created", content = @Content(schema = @Schema(implementation = Address.class)))})
+    @PostMapping(value = "/users/{user_id}/addresses}", consumes = {"application/json"})
+    ResponseEntity<Void> addAddress(@Parameter(description = "ID of the user to add addresses to", required = true)
+                                       @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long user_id,
+                                       @Parameter(description = "Address object", required = true) @Valid @RequestBody Address address);
 
 }

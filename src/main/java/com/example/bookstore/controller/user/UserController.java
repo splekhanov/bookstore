@@ -2,22 +2,23 @@ package com.example.bookstore.controller.user;
 
 import com.example.bookstore.controller.UserApi;
 import com.example.bookstore.model.security.Credentials;
-import com.example.bookstore.model.security.Role;
+import com.example.bookstore.model.user.Address;
 import com.example.bookstore.model.security.Token;
-import com.example.bookstore.model.security.User;
+import com.example.bookstore.model.user.User;
 import com.example.bookstore.service.AuthService;
 import com.example.bookstore.service.RoleService;
 import com.example.bookstore.service.UserService;
+import com.example.bookstore.service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.Min;
 import java.net.URI;
 import java.util.List;
 
+import static org.springframework.http.ResponseEntity.created;
 import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
@@ -26,12 +27,15 @@ public class UserController implements UserApi {
     private final UserService userService;
     private final AuthService authService;
     private final RoleService roleService;
+    private CustomUserDetailsService userDetailsService;
 
     @Autowired
-    public UserController(UserService userService, AuthService authService, RoleService roleService) {
+    public UserController(UserService userService, AuthService authService, RoleService roleService,
+                          CustomUserDetailsService userDetailsService) {
         this.userService = userService;
         this.authService = authService;
         this.roleService = roleService;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -39,7 +43,7 @@ public class UserController implements UserApi {
         userService.createUser(userToRegister);
         User user = userService.getUserByEmail(userToRegister.getEmail());
         URI location = URI.create(String.format("/%s", user.getId()));
-        return ResponseEntity.created(location).body(user);
+        return created(location).body(user);
     }
 
     @Override
@@ -82,8 +86,15 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<List<Role>> getRoles() {
-        List<Role> roles = roleService.getRoles();
-        return ResponseEntity.ok(roles);
+    public ResponseEntity<List<Address>> getAddresses(Long user_id) {
+        List<Address> addresses = userService.getUserAddresses(user_id);
+        return ResponseEntity.ok(addresses);
+    }
+
+    @Override
+    public ResponseEntity<Void> addAddress(Long user_id, Address address) {
+        userService.createAddress(user_id, address);
+        URI location = URI.create(String.format("/%s", address.getId()));
+        return created(location).build();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.bookstore.model.security;
+package com.example.bookstore.model.user;
 
 import com.example.bookstore.model.IdentifiedEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;

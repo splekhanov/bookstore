@@ -1,7 +1,8 @@
-package com.example.bookstore.model;
+package com.example.bookstore.model.user;
 
-import com.example.bookstore.model.security.User;
+import com.example.bookstore.model.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -37,13 +38,15 @@ public class Address {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
-    @ApiModelProperty(position = 2)
-    @ManyToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-                    CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference
+    @JsonIgnore
     private User user;
+
+    @ApiModelProperty(position = 2)
+    @Column(name = "user_id", updatable = false, insertable = false)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Long userId;
 
     @ApiModelProperty(position = 3)
     @Column(name = "full_name", nullable = false)

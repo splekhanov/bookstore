@@ -1,6 +1,7 @@
 package com.example.bookstore.service;
 
-import com.example.bookstore.model.security.User;
+import com.example.bookstore.model.user.Address;
+import com.example.bookstore.model.user.User;
 
 import java.util.List;
 
@@ -19,4 +20,12 @@ public interface UserService {
     void restoreUser(Long id);
 
     void deleteUserById(Long id);
+
+    void createAddress(Long userId, Address address);
+
+    List<Address> getUserAddresses(Long userId);
+
+    void updateUserAddress(Long userId, Long addressId, Address address);
+
+    void deleteUserAddress(Long userId, Long addressId);
 }

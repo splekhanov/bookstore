@@ -1,7 +1,7 @@
 package com.example.bookstore.service.impl;
 
-import com.example.bookstore.repository.security.UserRepository;
-import com.example.bookstore.model.security.User;
+import com.example.bookstore.repository.user.UserRepository;
+import com.example.bookstore.model.user.User;
 import com.example.bookstore.security.UserPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

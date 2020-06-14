@@ -1,6 +1,5 @@
-package com.example.bookstore.model.security;
+package com.example.bookstore.model.user;
 
-import com.example.bookstore.model.Address;
 import com.example.bookstore.model.IdentifiedEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -21,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -75,9 +75,9 @@ public class User implements IdentifiedEntity {
                     name = "role_id", referencedColumnName = "id"))
     private List<Role> roles;
 
-    @ApiModelProperty(position = 6)
-    @OneToMany(mappedBy = "user")
-    @JsonManagedReference
-    private List<Address> addresses;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    transient private List<Address> addresses;
 
 }
