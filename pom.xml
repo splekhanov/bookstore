@@ -8,9 +8,9 @@
 		<version>2.2.7.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
+	<groupId>com.epam.jdi</groupId>
 	<artifactId>bookstore</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>bookstore</name>
 	<description>Bookstore API project for JDI Dark</description>
 
