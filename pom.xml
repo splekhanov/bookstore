@@ -8,11 +8,11 @@
 		<version>2.2.7.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.epam.jdi</groupId>
+	<groupId>com.bookstore</groupId>
 	<artifactId>bookstore</artifactId>
 	<version>1.0.0</version>
 	<name>bookstore</name>
-	<description>Bookstore API project for JDI Dark</description>
+	<description>Bookstore API</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -88,16 +88,6 @@
 		</dependency>
 
 		<!--SWAGGER-->
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger-ui</artifactId>
-			<version>${springfox.swagger.ui.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-swagger2</artifactId>
-			<version>${springfox.swagger.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
