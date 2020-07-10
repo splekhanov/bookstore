@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @Builder
@@ -33,6 +35,7 @@ public class Address {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
 
+    @Valid
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
@@ -42,24 +45,30 @@ public class Address {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long userId;
 
+    @NotBlank(message = "Full name is mandatory")
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
+    @NotBlank(message = "Address line 1 is mandatory")
     @Column(name = "address_line1", nullable = false)
-    private String address_line1;
+    private String addressLine1;
 
     @Column(name = "address_line2")
-    private String address_line2;
+    private String addressLine2;
 
+    @NotBlank(message = "Postal is mandatory")
     @Column(name = "postal", nullable = false)
     private String postal;
 
+    @NotBlank(message = "City is mandatory")
     @Column(name = "city", nullable = false)
     private String city;
 
+    @NotBlank(message = "Region is mandatory")
     @Column(name = "region", nullable = false)
     private String region;
 
+    @NotBlank(message = "Country is mandatory")
     @Column(name = "country", nullable = false)
     private String country;
 }

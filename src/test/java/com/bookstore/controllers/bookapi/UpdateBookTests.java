@@ -54,8 +54,8 @@ public class UpdateBookTests extends BaseTestClass {
     public void updateBook_withValidObject_shouldReturn200() {
         int id = createBookPrecondition(requestSpec, book1);
         book1.setGenres(Arrays.asList(
-                Genre.builder().id(2L).build(),
-                Genre.builder().id(3L).build()
+                Genre.builder().type("Science fiction").build(),
+                Genre.builder().type("Dystopian fiction").build()
         ));
         given()
                 .spec(requestSpec)
@@ -87,7 +87,7 @@ public class UpdateBookTests extends BaseTestClass {
                 .price("6.82")
                 .quantity(2)
                 .genres(Arrays.asList(
-                        Genre.builder().id(2L).build()
+                        Genre.builder().type("Science fiction").build()
                 )).build();
 
         book2 = Book.builder()
@@ -98,8 +98,8 @@ public class UpdateBookTests extends BaseTestClass {
                 .price("7.50")
                 .quantity(1)
                 .genres(Arrays.asList(
-                        Genre.builder().id(16L).build(),
-                        Genre.builder().id(17L).build()
+                        Genre.builder().type("Bildungsroman").build(),
+                        Genre.builder().type("Southern Gothic").build()
                 )).build();
     }
 }
