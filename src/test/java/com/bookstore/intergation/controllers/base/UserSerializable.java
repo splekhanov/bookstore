@@ -1,4 +1,4 @@
-package com.bookstore.controllers.base;
+package com.bookstore.intergation.controllers.base;
 
 import com.bookstore.model.IdentifiedEntity;
 import com.bookstore.model.user.Role;

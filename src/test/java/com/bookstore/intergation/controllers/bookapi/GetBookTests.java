@@ -1,6 +1,6 @@
-package com.bookstore.controllers.bookapi;
+package com.bookstore.intergation.controllers.bookapi;
 
-import com.bookstore.controllers.base.BaseTestClass;
+import com.bookstore.intergation.controllers.base.BaseTestClass;
 import com.bookstore.model.Book;
 import com.bookstore.model.Genre;
 import io.restassured.RestAssured;
@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
-import static com.bookstore.controllers.base.Token.TOKEN;
+import static com.bookstore.intergation.controllers.base.Token.TOKEN;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 
