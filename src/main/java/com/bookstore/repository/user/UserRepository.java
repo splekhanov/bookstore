@@ -12,6 +12,6 @@ public interface UserRepository extends BaseRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
-    @Query(value = "SELECT password FROM user WHERE user.id = ?1", nativeQuery = true)
+    @Query(value = "SELECT u.password FROM User u WHERE u.id = ?1")
     String findUserPassword(Long id);
 }

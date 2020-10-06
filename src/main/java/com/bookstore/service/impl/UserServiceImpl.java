@@ -1,16 +1,15 @@
 package com.bookstore.service.impl;
 
 import com.bookstore.exception.AlreadyExistException;
-import com.bookstore.exception.InsufficientPermissionsException;
 import com.bookstore.exception.NotFoundException;
-import com.bookstore.repository.user.AddressRepository;
-import com.bookstore.service.RoleService;
-import com.bookstore.utils.constants.Roles;
 import com.bookstore.model.user.Address;
 import com.bookstore.model.user.Role;
 import com.bookstore.model.user.User;
+import com.bookstore.repository.user.AddressRepository;
 import com.bookstore.repository.user.UserRepository;
+import com.bookstore.service.RoleService;
 import com.bookstore.service.UserService;
+import com.bookstore.utils.constants.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,8 +18,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.bookstore.utils.UserUtils.getCurrentUserId;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -120,6 +117,7 @@ public class UserServiceImpl implements UserService {
     private void checkAndSetRoles(User user) {
         if (user.getRoles() == null || user.getRoles().isEmpty()) {
             user.setRoles(Collections.singletonList(roleService.getRoleByName(Roles.USER)));
+            return;
         }
         List<Role> rolesToSet = user.getRoles().stream()
                 .map(r -> roleService.getRole(r.getId())).collect(Collectors.toList());
@@ -128,23 +126,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createAddress(Long userId, Address address) {
-        if (isHasPermission(userId)) {
-            address.setUser(getUserById(userId));
-            System.out.println(address);
-            addressRepository.save(address);
-        } else {
-            throw new InsufficientPermissionsException("Insufficient permissions");
-        }
+        address.setUser(getUserById(userId));
+        addressRepository.save(address);
     }
 
     @Override
     public List<Address> getUserAddresses(Long userId) {
-        if (isHasPermission(userId)) {
-            User user = getUserById(userId);
-            return addressRepository.getAddressByUser(user);
-        } else {
-            throw new InsufficientPermissionsException("Insufficient permissions");
-        }
+        User user = getUserById(userId);
+        return addressRepository.getAddressByUser(user);
     }
 
     @Override
@@ -155,10 +144,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserAddress(Long userId, Long addressId) {
 
-    }
-
-    private boolean isHasPermission(Long userId) {
-        User currentUser = getUserById(getCurrentUserId().get());
-        return currentUser.getRoles().stream().anyMatch(r -> r.getName().equals(Roles.ADMIN)) || userId.equals(currentUser.getId());
     }
 }

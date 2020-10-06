@@ -1,9 +1,9 @@
 package com.bookstore.controller;
 
+import com.bookstore.model.security.Credentials;
 import com.bookstore.model.security.Token;
 import com.bookstore.model.user.Address;
 import com.bookstore.model.user.User;
-import com.bookstore.model.security.Credentials;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -106,7 +106,7 @@ public interface UserApi {
             @ApiResponse(responseCode = "404", description = "User not found")})
     @GetMapping(value = "/users/{user_id}/addresses", produces = {"application/json"})
     ResponseEntity<List<Address>> getAddresses(@Parameter(description = "ID of the user whose addresses to get", required = true)
-                                               @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long user_id);
+                                               @Min(value = 1, message = "must be greater than or equal to 1") @PathVariable Long userId);
 
 
     @Operation(summary = "Add new address", security = @SecurityRequirement(name = "bearerAuth"))

@@ -1,8 +1,8 @@
 package com.bookstore.service.impl;
 
-import com.bookstore.model.Book;
 import com.bookstore.exception.AlreadyExistException;
 import com.bookstore.exception.NotFoundException;
+import com.bookstore.model.Book;
 import com.bookstore.model.Genre;
 import com.bookstore.repository.book.BookRepository;
 import com.bookstore.service.BookService;
@@ -11,16 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class BooksServiceImpl implements BookService {
+public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
     private final GenreService genreService;
 
     @Autowired
-    public BooksServiceImpl(BookRepository bookRepository, GenreService genreService) {
+    public BookServiceImpl(BookRepository bookRepository, GenreService genreService) {
         this.bookRepository = bookRepository;
         this.genreService = genreService;
     }
@@ -36,20 +35,14 @@ public class BooksServiceImpl implements BookService {
 
     @Override
     public Book getBook(Long id) throws NotFoundException {
-        Optional<Book> bookOpt = bookRepository.findById(id);
-        if (!bookOpt.isPresent()) {
-            throw new NotFoundException("Book with ID '" + id + "' not found");
-        }
-        return bookOpt.get();
+        return bookRepository.findById(id).orElseThrow(() ->
+                new NotFoundException(String.format("Book with ID '%d' not found!", id)));
     }
 
     @Override
     public Book getBookByIsbn(String isbn) throws NotFoundException {
-        Optional<Book> bookOpt = bookRepository.findBookByIsbn(isbn);
-        if (!bookOpt.isPresent()) {
-            throw new NotFoundException("Book with ISBN '" + isbn + "' not found");
-        }
-        return bookOpt.get();
+        return bookRepository.findBookByIsbn(isbn).orElseThrow(() ->
+                new NotFoundException(String.format("Book with ISBN '%s' not found!", isbn)));
     }
 
     @Override

@@ -73,7 +73,7 @@ public class GetBookTests extends BaseTestClass {
                 .then()
                 .assertThat()
                 .statusCode(404)
-                .body("message", equalTo("Book with ID '" + id + "' not found"));
+                .body("message", equalTo("Book with ID '" + id + "' not found!"));
     }
 
     @Test
@@ -165,7 +165,7 @@ public class GetBookTests extends BaseTestClass {
                 .then()
                 .assertThat()
                 .statusCode(404)
-                .body("message", equalTo("Genre with ID '" + genreId + "' not found"));
+                .body("message", equalTo("Genre with ID '" + genreId + "' not found!"));
     }
 
     private void initBooks() {

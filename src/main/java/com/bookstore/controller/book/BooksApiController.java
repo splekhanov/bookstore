@@ -1,8 +1,8 @@
 package com.bookstore.controller.book;
 
-import com.bookstore.model.Book;
-import com.bookstore.service.impl.BooksServiceImpl;
 import com.bookstore.controller.BooksApi;
+import com.bookstore.model.Book;
+import com.bookstore.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,8 +13,12 @@ import java.util.List;
 @RestController
 public class BooksApiController implements BooksApi {
 
+    private BookService booksService;
+
     @Autowired
-    private BooksServiceImpl booksService;
+    public BooksApiController(BookService booksService) {
+        this.booksService = booksService;
+    }
 
     @Override
     public ResponseEntity<Book> createBook(Book book) {

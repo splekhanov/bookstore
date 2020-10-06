@@ -92,7 +92,7 @@ public class CreateBookTests extends BaseTestClass {
                 .then()
                 .assertThat()
                 .statusCode(404)
-                .body("message", equalTo("Genre with type 'Some unknown type' not found"));
+                .body("message", equalTo("Genre with type 'Some unknown type' not found!"));
     }
 
     @Test

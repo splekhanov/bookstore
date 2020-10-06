@@ -1,16 +1,17 @@
 package com.bookstore.controller.user;
 
-import com.bookstore.model.security.Token;
-import com.bookstore.service.RoleService;
 import com.bookstore.controller.UserApi;
 import com.bookstore.model.security.Credentials;
+import com.bookstore.model.security.Token;
 import com.bookstore.model.user.Address;
 import com.bookstore.model.user.User;
 import com.bookstore.service.AuthService;
+import com.bookstore.service.RoleService;
 import com.bookstore.service.UserService;
 import com.bookstore.service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -85,12 +86,14 @@ public class UserController implements UserApi {
         return ok().build();
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or principal.id == #userId")
     @Override
-    public ResponseEntity<List<Address>> getAddresses(Long user_id) {
-        List<Address> addresses = userService.getUserAddresses(user_id);
+    public ResponseEntity<List<Address>> getAddresses(Long userId) {
+        List<Address> addresses = userService.getUserAddresses(userId);
         return ResponseEntity.ok(addresses);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or principal.id == #userId")
     @Override
     public ResponseEntity<Void> addAddress(Long user_id, Address address) {
         userService.createAddress(user_id, address);

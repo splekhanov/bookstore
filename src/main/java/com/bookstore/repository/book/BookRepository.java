@@ -13,8 +13,5 @@ public interface BookRepository extends BaseRepository<Book, Long> {
 
     Optional<Book> findBookByIsbn(String isbn);
 
-//    @Query(value = "SELECT * FROM book LEFT JOIN genre ON genre.id = book.id WHERE genre.id = ?1", nativeQuery = true)
-//    List<Book> findBooksByGenreId(@Param("id")Long id);
-
     List<Book> findBooksByGenres(Genre genre);
 }
