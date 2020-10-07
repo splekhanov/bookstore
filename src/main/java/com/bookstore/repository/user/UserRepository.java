@@ -14,4 +14,5 @@ public interface UserRepository extends BaseRepository<User, Long> {
 
     @Query(value = "SELECT u.password FROM User u WHERE u.id = ?1")
     String findUserPassword(Long id);
+
 }

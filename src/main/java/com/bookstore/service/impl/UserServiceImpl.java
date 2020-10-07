@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -57,7 +56,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(Long id) {
         User user = findUserById(id);
         if (!user.isEnabled()) {
-            throw new NotFoundException("User with ID '" + id +"' not found");
+            throw new NotFoundException(String.format("User with ID '%d' not found", id));
         } else {
             user.setEnabled(false);
             user.setPassword(userRepository.findUserPassword(id));
@@ -89,28 +88,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() ->
+        return userRepository.findByEmail(email).orElseThrow(() ->
                 new NotFoundException(String.format("User with email '%s' not found!", email)));
-        return user;
     }
 
     private User findUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() ->
+        return userRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(String.format("User with ID '%d' not found!", id)));
-        return user;
     }
 
     private void checkIfUserExists(User user) {
-        Optional<User> existingUserById;
-        Optional<User> existingUserByName = userRepository.findByEmail(user.getEmail());
-        if (existingUserByName.isPresent()) {
+        userRepository.findByEmail(user.getEmail()).ifPresent(e -> {
             throw new AlreadyExistException(String.format("User with email '%s' already exists!", user.getEmail()));
-        }
+        });
         if (user.getId() != null) {
-            existingUserById = userRepository.findById(user.getId());
-            if (existingUserById.isPresent()) {
+            userRepository.findById(user.getId()).ifPresent(e -> {
                 throw new AlreadyExistException(String.format("User with ID '%d' already exists!", user.getId()));
-            }
+            });
         }
     }
 

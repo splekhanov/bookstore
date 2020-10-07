@@ -6,9 +6,7 @@ import com.bookstore.model.security.Token;
 import com.bookstore.model.user.Address;
 import com.bookstore.model.user.User;
 import com.bookstore.service.AuthService;
-import com.bookstore.service.RoleService;
 import com.bookstore.service.UserService;
-import com.bookstore.service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,16 +25,11 @@ public class UserController implements UserApi {
 
     private final UserService userService;
     private final AuthService authService;
-    private final RoleService roleService;
-    private CustomUserDetailsService userDetailsService;
 
     @Autowired
-    public UserController(UserService userService, AuthService authService, RoleService roleService,
-                          CustomUserDetailsService userDetailsService) {
+    public UserController(UserService userService, AuthService authService) {
         this.userService = userService;
         this.authService = authService;
-        this.roleService = roleService;
-        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -95,9 +88,10 @@ public class UserController implements UserApi {
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or principal.id == #userId")
     @Override
-    public ResponseEntity<Void> addAddress(Long user_id, Address address) {
-        userService.createAddress(user_id, address);
+    public ResponseEntity<Void> addAddress(Long userId, Address address) {
+        userService.createAddress(userId, address);
         URI location = URI.create(String.format("/%s", address.getId()));
         return created(location).build();
     }
+
 }

@@ -13,47 +13,48 @@ import java.util.List;
 @RestController
 public class BooksApiController implements BooksApi {
 
-    private BookService booksService;
+    private BookService bookService;
 
     @Autowired
-    public BooksApiController(BookService booksService) {
-        this.booksService = booksService;
+    public BooksApiController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @Override
     public ResponseEntity<Book> createBook(Book book) {
-        Book savedBook = booksService.createBook(book);
+        Book savedBook = bookService.createBook(book);
         URI location = URI.create(String.format("/books/%s", savedBook.getId()));
         return ResponseEntity.created(location).body(savedBook);
     }
 
     @Override
     public ResponseEntity<Book> getBookById(Long id) {
-        Book book = booksService.getBook(id);
+        Book book = bookService.getBook(id);
         return ResponseEntity.ok(book);
     }
 
     @Override
     public ResponseEntity<Book> getBookByIsbn(String isbn) {
-        Book book = booksService.getBookByIsbn(isbn);
+        Book book = bookService.getBookByIsbn(isbn);
         return ResponseEntity.ok(book);
     }
 
     @Override
     public ResponseEntity<List<Book>> getBooks() {
-        List<Book> books = booksService.getBooks();
+        List<Book> books = bookService.getBooks();
         return ResponseEntity.ok(books);
     }
 
     @Override
     public ResponseEntity<List<Book>> getBooksByGenre(Long id) {
-        List<Book> books = booksService.getBooksByGenre(id);
+        List<Book> books = bookService.getBooksByGenre(id);
         return ResponseEntity.ok(books);
     }
 
     @Override
     public ResponseEntity<Void> updateBook(Long id, Book book) {
-        booksService.updateBook(id, book);
+        bookService.updateBook(id, book);
         return ResponseEntity.ok().build();
     }
+
 }

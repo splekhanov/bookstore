@@ -26,7 +26,7 @@ public class GenreServiceImpl implements GenreService {
         String genreType = genre.getType();
         if (genreId != null) {
             genreRepository.findById(genreId).ifPresent(e -> {
-                throw new AlreadyExistException(String.format("Genre with ID '%d' already exists. Use 'PUT genres/%d' to update existing record", genreId, genreId));
+                throw new AlreadyExistException(String.format("Genre with ID '%1$d' already exists. Use 'PUT genres/%1$d' to update existing record", genreId));
             });
         }
         if (genreType != null) {
